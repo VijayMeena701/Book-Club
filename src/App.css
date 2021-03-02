@@ -1,6 +1,7 @@
 *{
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 html,body {
@@ -9,16 +10,13 @@ html,body {
     sans-serif;
     background-color: #fff;
     max-width: 1920px;
+    width: 100vw;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
-.container {
-  margin: 0 auto;
-}
-.nav-container{
-  color: inherit;
-  display: flex;
-  margin: auto 20px;
-  justify-content: space-between;
-}
+/* html::-webkit-scrollbar {
+  display: none;
+} */
 a{
   text-decoration: none;
 }

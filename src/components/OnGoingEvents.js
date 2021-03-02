@@ -14,6 +14,7 @@ const styles = (theme)=> ({
     imgContainer:{
         display: 'block',
         width: '100%',
+        height: '20vw',
         '& img': {
             width: '100%',
             height: '100%'

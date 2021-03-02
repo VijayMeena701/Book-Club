@@ -3,21 +3,29 @@ import PropTypes from 'prop-types';
 import withStyles from  '@material-ui/core/styles/withStyles';
 
 const styles = (theme) => ({
-
+    imageContainer:{
+        display: 'block',
+        width: '100%',
+        height: '15vw',
+        '& img': {
+            width: '100%',
+            height: '100%'
+        }
+    }
 });
 
 function GalleryImages(props) {
-    const { classes, image }= props;
+    const { classes, imageUrl }= props;
     return (
         <div className={classes.imageContainer}>
-            <img src={image} alt="EventPic" ></img>
+            <img src={imageUrl} alt="EventPic" ></img>
         </div>
     )
 }
 
 GalleryImages.propTypes = {
     classes: PropTypes.object.isRequired,
-    image: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string.isRequired,
 }
 
 export default withStyles(styles)(GalleryImages);

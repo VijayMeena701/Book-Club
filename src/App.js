@@ -1,7 +1,9 @@
-import Navbar from './components/Navbar';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+// components
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 // pages
 import './App.css';
@@ -32,13 +34,14 @@ function App() {
   return (
       <MuiThemeProvider theme={theme}>
           <Router>
-            <Navbar></Navbar>
+            <Navbar/>
               <div className="container">
                 <Switch>
                   <Route exact path='/' component={Home} />
                   <Route exact path='/about' component={About}/>
                 </Switch>
               </div>
+              <Footer/>
           </Router>
       </MuiThemeProvider>
   );

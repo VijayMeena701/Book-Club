@@ -9,6 +9,7 @@ import GalleryImage from '../components/GalleryImages';
 
 //sample data
 import dataSet from './data';
+import newImagesSet from './ImagesSet';
 
 import OnGoingEvents from '../components/OnGoingEvents';
 
@@ -168,9 +169,11 @@ function Home(props) {
 
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [galleryImages, setGalleryImages] = useState([]);
     const fetchData = async () => {
         const newData = dataSet;
         setData(newData);
+        setGalleryImages(newImagesSet);
         setLoading(false);
     };
 
@@ -179,19 +182,28 @@ function Home(props) {
         fetchData();
     }, []);
 
-    var dataMarkup;
+    var eventMarkup;
+    var galleryMarkup;
 
     if(!loading){
-        dataMarkup = <Grid container spacing={2}>
+        eventMarkup = <Grid container spacing={2}>
         {
             data && data.map((datum, index) => {
                 return <Grid item md={6} key={index} ><OnGoingEvents data={datum} /></Grid>
             })
         }
-    </Grid>
+        </Grid>
+        galleryMarkup = <Grid container spacing={2}>
+            {
+                galleryImages && galleryImages.map((image, index) => {
+                    return <Grid item md={4} sm ={6} key={index} ><GalleryImage imageUrl={image.image} /></Grid>
+                })
+            }
+        </Grid>
+        
     }
     else{
-        dataMarkup = <Grid container spacing={2}>
+        eventMarkup = <Grid container spacing={2}>
             <CircularProgress color="primary" size={100} />
         </Grid>
     }
@@ -276,10 +288,24 @@ function Home(props) {
                             <div className="title">
                                 <span>On-going Events</span>
                             </div>
-                            {dataMarkup}
+                            {eventMarkup}
                             <div style={{display: 'flex', width: '100%'}}>
                                 <Link to="/about" style={{margin: '0 auto', width: '180px'}}>
                                 <Button className={classes.btn} >Learn More</Button>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={classes.secContainer}>
+                        <div className={classes.aboutcontainer}>
+                            <br/>
+                            <div className="title">
+                                <span>Gallery</span>
+                            </div>
+                            {galleryMarkup}
+                            <div style={{display: 'flex', width: '100%'}}>
+                                <Link to="/gallery" style={{margin: '0 auto', width: '180px'}}>
+                                <Button className={classes.btn} >View More</Button>
                                 </Link>
                             </div>
                         </div>
