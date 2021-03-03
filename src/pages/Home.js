@@ -23,8 +23,8 @@ const styles = (theme)=> ({
         background: '#222',
     },
     ImgContainer: {
-        backgroundImage: `url(${bookMain})`,
-        backgroundSize: '100%',
+        background: `url(${bookMain}) no-repeat center center fixed`,
+        backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
     },
     textContainer: {

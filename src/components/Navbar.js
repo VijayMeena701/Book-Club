@@ -87,10 +87,10 @@ function Navbar(props) {
                                     </Typography>
                                 </MyButton>
                             </Link>
-                            <Link to='contacts'>
-                                <MyButton tip="Contacts" btnClassName={classes.btnClass}>
+                            <Link to='contact'>
+                                <MyButton tip="Contact" btnClassName={classes.btnClass}>
                                     <Typography className={classes.navTypo} color='primary'>
-                                        Contacts
+                                        Contact
                                     </Typography>
                                 </MyButton>
                             </Link>

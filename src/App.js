@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import './App.css';
 import Home from './pages/Home';
 import About from './pages/About'
+import Contact from './pages/Contact';
 
 
 const theme = createMuiTheme({
@@ -38,7 +39,8 @@ function App() {
               <div className="container">
                 <Switch>
                   <Route exact path='/' component={Home} />
-                  <Route exact path='/about' component={About}/>
+                  <Route exact path='/about' component={About} />
+                  <Route exact path="/contact" component={Contact} />
                 </Switch>
               </div>
               <Footer/>
