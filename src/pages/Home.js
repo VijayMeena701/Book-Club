@@ -74,7 +74,7 @@ const styles = (theme)=> ({
             margin: '-15% auto'
         },
         [theme.breakpoints.down('sm')]:{
-            margin: '-5% auto'
+            margin: '-5% auto 0 0'
         }
     },
     secContainer: {
