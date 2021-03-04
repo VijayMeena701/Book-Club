@@ -6,7 +6,8 @@ const styles = (theme) => ({
     imageContainer:{
         display: 'block',
         width: '100%',
-        height: '15vw',
+        height: '100%',
+        objectFit: 'cover',
         '& img': {
             width: '100%',
             height: '100%'

@@ -71,7 +71,7 @@ const styles = (theme)=> ({
         flexDirection: 'column',
         justifyContent: 'space-between',
         [theme.breakpoints.down('md')]: {
-            margin: '-15% auto'
+            margin: '-15% auto 0 0'
         },
         [theme.breakpoints.down('sm')]:{
             margin: '-5% auto 0 0'
@@ -117,7 +117,7 @@ const styles = (theme)=> ({
             fontFamily: 'Roboto',
             fontWeight: '400',
             fontSize: '18px',
-            lineheight: '30px',
+            lineHeight: '30px',
             overflowWrap: 'anywhere',
         }
     },

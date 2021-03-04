@@ -1,7 +1,13 @@
-import React from 'react';
+import React, {useState, useEffect } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+//sample data
+import dataSet from './data';
+
+import OnGoingEvents from '../components/OnGoingEvents';
 
 import bookMain from './bookMain.png';
 
@@ -61,9 +67,32 @@ const styles = (theme)=> ({
     },
     gridContainer: {
         position: 'relative',
-        padding: '5em 0',
+        margin: '80px auto 0' ,
+        paddingTop: '2em',
+    },
+    aboutContTitle: {
+        display: 'flex',
+        '& div': {
+            background: '#FFAA04',
+            width: '0.25em',
+            height: '1.5em',
+        },
+        '& span': {
+            fontSize: '21px',
+            fontFamily:'Lato',
+            fontWeight: '700',
+            color: '#FFAA04',
+            letterSpacing: '0.1em',
+            marginLeft: '1em',
+        }
     },
     aboutcontainer: {
+        padding: '2em',
+        '& .imagesBox': {
+            height: '100%',
+            width: '100%',
+            objectFit: 'cover',
+        },
         '& .title':{
             fontFamily: 'Lato',
             fontSize: '2.5rem',
@@ -124,76 +153,87 @@ const styles = (theme)=> ({
     }
 })
 
-function About(props) {
+function Events(props) {
     const classes = props.classes;
+
+    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+    const fetchData = async () => {
+        const newData = dataSet;
+        setData(newData);
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        setLoading(true);
+        fetchData();
+    }, []);
+
+    var eventMarkup;
+    var pastEventsMarkup;
+
+    if(!loading){
+        eventMarkup = <Grid container spacing={2}>
+        {
+            data && data.slice(0,2).map((datum, index) => {
+                return <Grid item md={6} key={index} className="imagesBox" ><OnGoingEvents data={datum} /></Grid>
+            })
+        }
+        </Grid>
+        pastEventsMarkup = <Grid container spacing={2}>
+        {
+            data && data.map((datum, index) => {
+                return <Grid item md={6} key={index} className="imagesBox" ><OnGoingEvents data={datum} /></Grid>
+            })
+        }
+        </Grid>
+        
+    }
+    else{
+        eventMarkup = <Grid container spacing={2}>
+            <CircularProgress color="primary" size={100} />
+        </Grid>
+    }
     return (
         <>
             <section className={classes.root}>
             <div className={classes.ImgContainer}>
                     <div className={classes.textContainer}>
                         <div>
-                            <p>Contact</p>
+                            <p>Events</p>
                         </div>
                     </div>
                 </div>
                 <div className={classes.secondSec}>
                     <div className={classes.secContainer}>
-                        <Grid container spacing={3} className={classes.gridContainer}>
-                            <Grid item md={12}>
-                                <div className={classes.aboutcontainer}>
-                                    <div className="title">
-                                        <span>Welcome to Book Club</span>
-                                    </div>
-                                    <br/>
-                                    <br/>
-                                    <p>
-                                    Teritatis et quasi architecto.
-                                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolore mque laudantium,
-                                    totam rem aperiam eaque ipsa quae ab illo invent.
-                                    Sed ut perspiciatis unde omnis.
-                                    Teritatis et quasi architecto.
-                                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolore mque laudantium,
-                                    totam rem aperiam eaque ipsa quae ab illo invent.
-                                    Sed ut perspiciatis unde omnis.
-                                    Teritatis et quasi architecto.
-                                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolore mque laudantium,
-                                    totam rem aperiam eaque ipsa quae ab illo invent. Sed ut perspiciatis unde omnis.
-                                    </p>
-                                    <br/>
-                                </div>
-                            </Grid>
-                            <Grid item md={6}>
-                                <div className={classes.aboutcontainer}>
-                                    <br/>
-                                    <div className="title">
-                                        <span>Mission</span>
-                                    </div>
-                                    <br/>
-                                    <br/>
-                                    <p>Teritatis et quasi architecto. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolore mque laudantium, totam rem aperiam eaque ipsa quae ab illo invent. Sed ut perspiciatis unde omnis.</p>
-                                </div>
-                            </Grid>
-                            <Grid item md={6}>
-                                <div className={classes.aboutcontainer}>
-                                    <br/>
-                                    <div className="title">
-                                        <span>Vision</span>
-                                    </div>
-                                    <br/>
-                                    <br/>
-                                    <p>Teritatis et quasi architecto. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolore mque laudantium, totam rem aperiam eaque ipsa quae ab illo invent. Sed ut perspiciatis unde omnis.</p>
-                                </div>
-                            </Grid>
-                        </Grid>
+                        <div className={classes.aboutcontainer}>
+                            <br/>
+                            <div className="title">
+                                <span>On-going Events</span>
+                            </div>
+                            <br />
+                            {eventMarkup}
+                        </div>
                     </div>
+                    <div className={classes.secContainer}>
+                        <div className={classes.aboutcontainer}>
+                            <br/>
+                            <div className="title">
+                                <span>Past Events</span>
+                            </div>
+                            <br />
+                            {pastEventsMarkup}
+                        </div>
+                    </div>
+
                 </div>
             </section>
         </>
     )
 }
 
-About.propTypes = {
+Events.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(About);
+export default withStyles(styles)(Events);

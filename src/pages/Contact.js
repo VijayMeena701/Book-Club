@@ -99,7 +99,7 @@ const styles = (theme)=> ({
                     fontFamily: 'Roboto',
                     fontWeight: '400',
                     fontSize: '1.125em',
-                    lineheight: '24px',
+                    lineHeight: '24px',
                     padding: '1em 0',
                     overflowWrap: 'anywhere',
                 },
@@ -147,7 +147,7 @@ const styles = (theme)=> ({
                 color: '#fff',
                 fontSize: '28px',
                 fontWeight: '900',
-                lineheight: '2em',
+                lineHeight: '2em',
             }
 
         }
@@ -176,7 +176,7 @@ const styles = (theme)=> ({
     }
 });
 
-function Home(props) {
+function Contact(props) {
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
     const [message,setMessage] = useState('');
@@ -254,8 +254,8 @@ function Home(props) {
     )
 }
 
-Home.propTypes = {
+Contact.propTypes = {
     classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(Home);
+export default withStyles(styles)(Contact);

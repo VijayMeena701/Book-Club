@@ -126,7 +126,7 @@ const styles = (theme) => ({
             fontSize: '16px',
             fontStyle: 'normal',
             fontWeight: 400,
-            lineHeight: '19px',
+            lineHeight: '23px',
             letterSpacing: '1px',
             textAlign: 'center',
             color: '#fff',
