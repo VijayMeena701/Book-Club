@@ -8,12 +8,14 @@ import Footer from './components/Footer';
 // pages
 import './App.css';
 import Home from './pages/Home';
-import About from './pages/About'
+import About from './pages/About';
 import Contact from './pages/Contact';
 import Gallery from './pages/Gallery';
 import Events from './pages/Events';
 import Teams from './pages/Teams';
-
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
+import { AdminAuthProvider } from './context/AdminAuthContext';
 
 const theme = createMuiTheme({
   palette: {
@@ -29,29 +31,36 @@ const theme = createMuiTheme({
       dark: '#000000',
       contrastText: '#fff',
     },
-  },typography: {
-    useNextVariants: true
-  }
+  },
+  typography: {
+    useNextVariants: true,
+  },
 });
 
 function App() {
   return (
-      <MuiThemeProvider theme={theme}>
-          <Router>
-            <Navbar/>
-              <div className="container">
-                <Switch>
-                  <Route exact path='/' component={Home} />
-                  <Route exact path='/about' component={About} />
-                  <Route exact path="/contact" component={Contact} />
-                  <Route exact path="/gallery" component={Gallery} />
-                  <Route exact path="/events" component={Events} />
-                  <Route exact path="/teams" component={Teams} />
-                </Switch>
-              </div>
-              <Footer/>
-          </Router>
-      </MuiThemeProvider>
+    <MuiThemeProvider theme={theme}>
+      <Router>
+        <Navbar />
+        <div className="container">
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/about" component={About} />
+            <Route exact path="/contact" component={Contact} />
+            <Route exact path="/gallery" component={Gallery} />
+            <Route exact path="/events" component={Events} />
+            <Route exact path="/teams" component={Teams} />
+          </Switch>
+          <AdminAuthProvider>
+            <Switch>
+              <Route exact path="/admin" component={AdminLogin} />
+              <Route exact path="/admin/dashboard" component={AdminDashboard} />
+            </Switch>
+          </AdminAuthProvider>
+        </div>
+        <Footer />
+      </Router>
+    </MuiThemeProvider>
   );
 }
 
