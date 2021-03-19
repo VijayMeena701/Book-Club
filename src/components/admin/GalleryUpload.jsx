@@ -68,14 +68,24 @@ const useStyles = makeStyles({
 const GalleryUpload = ({
   error,
   files,
+  loading,
+  success,
   changeHandler,
   handleImageUploads,
   setFiles,
   setError,
-  loading,
+  setSuccess,
 }) => {
   const styles = useStyles();
   const [show, setShow] = useState(false);
+
+  const handleSubmit = (e) => {
+    handleImageUploads(e, 'gallery');
+    setTimeout(() => {
+      setSuccess(false);
+    }, 3000);
+  };
+
   return (
     <section id="galleryImagesUpload" className={styles.section}>
       <div className={styles.head}>
@@ -87,10 +97,7 @@ const GalleryUpload = ({
       {show && (
         <>
           <div className={styles.formContainer}>
-            <form
-              onSubmit={(e) => handleImageUploads(e, 'gallery')}
-              className={styles.form}
-            >
+            <form onSubmit={handleSubmit} className={styles.form}>
               <label htmlFor="gallery-input" className={styles.chooseFiles}>
                 Choose Files
               </label>
@@ -106,6 +113,9 @@ const GalleryUpload = ({
                   zIndex: '-1',
                 }}
               />
+              {success && (
+                <p style={{ color: '#28a745' }}>Uploaded successfully</p>
+              )}
               {error && <p style={{ color: 'red' }}>{error}</p>}
               <div>
                 <button
@@ -118,10 +128,7 @@ const GalleryUpload = ({
                 >
                   Cancel
                 </button>
-                <button
-                  disabled={loading || !files || error}
-                  className={styles.formSubmit}
-                >
+                <button disabled={loading} className={styles.formSubmit}>
                   {loading ? 'Uploading...' : 'Upload'}
                 </button>
               </div>

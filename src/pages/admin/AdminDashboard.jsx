@@ -9,6 +9,7 @@ const Admin = () => {
   const [files, setFiles] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const changeHandler = (e) => {
     let selected = e.target.files;
@@ -28,6 +29,10 @@ const Admin = () => {
 
   const handleImageUploads = (e, type) => {
     e.preventDefault();
+    if (!files) {
+      setError('**No images selected');
+      return;
+    }
     if (!error && files && type.trim() !== '') {
       setLoading(true);
       setError(null);
@@ -52,6 +57,7 @@ const Admin = () => {
       });
       setFiles(null);
       setLoading(false);
+      setSuccess(true);
     }
   };
 
@@ -72,6 +78,8 @@ const Admin = () => {
           setError={setError}
           handleImageUploads={handleImageUploads}
           loading={loading}
+          success={success}
+          setSuccess={setSuccess}
         />
       </div>
     </>
