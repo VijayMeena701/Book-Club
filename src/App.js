@@ -13,8 +13,8 @@ import Contact from './pages/Contact';
 import Gallery from './pages/Gallery';
 import Events from './pages/Events';
 import Teams from './pages/Teams';
-import AdminLogin from './pages/AdminLogin';
-import AdminDashboard from './pages/AdminDashboard';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminDashboard from './pages/admin/AdminDashboard';
 import { AdminAuthProvider } from './context/AdminAuthContext';
 
 const theme = createMuiTheme({

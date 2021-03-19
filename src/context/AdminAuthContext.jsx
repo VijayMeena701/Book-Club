@@ -12,7 +12,6 @@ export const AdminAuthProvider = ({ children }) => {
   useEffect(() => {
     const unsub = auth.onAuthStateChanged((user) => {
       setAdmin(user);
-      console.log(user);
       setLoading(false);
     });
     return unsub;

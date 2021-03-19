@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { useAdmin } from '../context/AdminAuthContext';
+import { useAdmin } from '../../context/AdminAuthContext';
 
 const AdminLogin = () => {
   const history = useHistory();
