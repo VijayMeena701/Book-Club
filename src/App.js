@@ -16,6 +16,7 @@ import Teams from './pages/Teams';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import { AdminAuthProvider } from './context/AdminAuthContext';
+import PrivateRoute from './components/PrivateRoute';
 
 const theme = createMuiTheme({
   palette: {
@@ -54,7 +55,11 @@ function App() {
           <AdminAuthProvider>
             <Switch>
               <Route exact path="/admin" component={AdminLogin} />
-              <Route exact path="/admin/dashboard" component={AdminDashboard} />
+              <PrivateRoute
+                exact
+                path="/admin/dashboard"
+                component={AdminDashboard}
+              />
             </Switch>
           </AdminAuthProvider>
         </div>
