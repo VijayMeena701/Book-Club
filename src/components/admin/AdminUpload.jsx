@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
+import useFirestore from '../../hooks/useFirestore';
 
 const useStyles = makeStyles({
   section: {
@@ -65,7 +66,7 @@ const useStyles = makeStyles({
   },
 });
 
-const GalleryUpload = ({
+const AdminUpload = ({
   error,
   files,
   loading,
@@ -78,6 +79,8 @@ const GalleryUpload = ({
 }) => {
   const styles = useStyles();
   const [show, setShow] = useState(false);
+  const res = useFirestore('gallery');
+  console.log(res);
 
   const handleSubmit = (e) => {
     handleImageUploads(e, 'gallery');
@@ -90,7 +93,10 @@ const GalleryUpload = ({
     <section id="galleryImagesUpload" className={styles.section}>
       <div className={styles.head}>
         <h1 style={{ color: '#303952' }}>Gallery Images</h1>
-        <div onClick={() => setShow((show) => !show)} class={styles.showBtn}>
+        <div
+          onClick={() => setShow((show) => !show)}
+          className={styles.showBtn}
+        >
           <AiOutlinePlus style={{ fontSize: '1.5rem' }} />
         </div>
       </div>
@@ -147,9 +153,17 @@ const GalleryUpload = ({
           </div>
         </>
       )}
+      {res.length > 0 &&
+        res.map((doc) => (
+          <img
+            src={doc.url}
+            alt={doc.url}
+            key={Math.round(Math.random() * 100)}
+          />
+        ))}
     </section>
   );
 };
 
-export default GalleryUpload;
+export default AdminUpload;
 // disabled={!files || error}

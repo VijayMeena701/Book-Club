@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AdminNavbar from '../../components/admin/AdminNavbar';
-import GalleryUpload from '../../components/admin/GalleryUpload';
+import AdminUpload from '../../components/admin/AdminUpload';
 import { db, storage, timestamp } from '../../utils/firebase';
 
 const types = ['image/png', 'image/jpeg'];
@@ -70,7 +70,7 @@ const Admin = () => {
           margin: 'auto',
         }}
       >
-        <GalleryUpload
+        <AdminUpload
           changeHandler={changeHandler}
           files={files}
           setFiles={setFiles}
