@@ -16,6 +16,7 @@ const styles = (theme) => ({
 		height: "100vh",
 		width: "100%",
 		background: "rgba(0,0,0,0.1)",
+		transition: "all 0.3s",
 	},
 	formBox: {
 		width: "380px",
@@ -80,7 +81,6 @@ const AdminLogin = (props) => {
 			setLoading(false);
 			setDisableBtn(false);
 		} catch (error) {
-			console.log("error logging in as admin");
 			setError(error.message);
 			setLoading(false);
 			setDisableBtn(false);
