@@ -2,6 +2,8 @@ import { makeStyles, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import useFirestore from "../../hooks/useFirestore";
+import Button from "@material-ui/core/Button";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 const useStyles = makeStyles({
 	section: {
@@ -35,6 +37,7 @@ const useStyles = makeStyles({
 		background: "#f1f2f6",
 		padding: "1rem",
 		margin: "0.5rem 0",
+		transition: "display ease 0.5s",
 	},
 	form: {
 		display: "flex",
@@ -115,20 +118,21 @@ const AdminUpload = ({
 				{show && (
 					<div className={styles.formContainer}>
 						<form onSubmit={handleSubmit} className={styles.form}>
-							<label htmlFor="gallery-input" className={styles.chooseFiles}>
-								Choose Files
-							</label>
+							<Button
+								startIcon={<CloudUploadIcon />}
+								color="secondary"
+								onClick={() => document.getElementById("gallery-input").click()}
+								style={{ margin: "0 16px" }}
+							>
+								Select Files
+							</Button>
 							<input
 								type="file"
 								onChange={changeHandler}
 								multiple
 								accept="image/png, image/jpeg"
 								id="gallery-input"
-								style={{
-									opacity: "0",
-									position: "absolute",
-									zIndex: "-1",
-								}}
+								hidden="hidden"
 							/>
 							{success && (
 								<p style={{ color: "#28a745" }}>Uploaded successfully</p>

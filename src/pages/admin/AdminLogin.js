@@ -74,6 +74,7 @@ const AdminLogin = (props) => {
 
 	const handleAdminLogin = async (e) => {
 		e.preventDefault();
+		setError("");
 		setLoading(true);
 		setDisableBtn(true);
 		try {
