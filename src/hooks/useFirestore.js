@@ -4,7 +4,6 @@ import { db } from "../utils/firebase";
 const useFirestore = (type) => {
 	const [docs, setDocs] = useState([]);
 	useEffect(() => {
-		console.log("working");
 		const unsub = db
 			.collection("gallery")
 			.orderBy("createdAt", "asc")

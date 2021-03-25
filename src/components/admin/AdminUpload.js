@@ -4,6 +4,14 @@ import { AiOutlinePlus } from "react-icons/ai";
 import useFirestore from "../../hooks/useFirestore";
 import Button from "@material-ui/core/Button";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import PropTypes from "prop-types";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Box from "@material-ui/core/Box";
+import PublishRoundedIcon from "@material-ui/icons/PublishRounded";
+import CancelIcon from "@material-ui/icons/Cancel";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles({
 	section: {
@@ -51,11 +59,7 @@ const useStyles = makeStyles({
 	},
 	formSubmit: {
 		background: "#28a745",
-		border: "none",
-		outline: "none",
-		padding: "0.5rem 0.75rem",
 		cursor: "pointer",
-		fontSize: "1rem",
 		color: "white",
 		"&:hover": {
 			backgroundColor: "#218838",
@@ -63,11 +67,6 @@ const useStyles = makeStyles({
 	},
 	formCancel: {
 		background: "#dc3545",
-		border: "none",
-		outline: "none",
-		padding: "0.5rem 0.75rem",
-		cursor: "pointer",
-		fontSize: "1rem",
 		color: "white",
 		"&:hover": {
 			backgroundColor: "#c82333",
@@ -75,6 +74,34 @@ const useStyles = makeStyles({
 		marginRight: "0.5rem",
 	},
 });
+
+function CircularProgressWithLabel(props) {
+	return (
+		<Box position="relative" display="inline-flex">
+			<CircularProgress variant="determinate" {...props} />
+			<Box
+				top={0}
+				left={0}
+				bottom={0}
+				right={0}
+				position="absolute"
+				display="flex"
+				alignItems="center"
+				justifyContent="center"
+			>
+				<Typography
+					variant="caption"
+					component="div"
+					color="textSecondary"
+				>{`${Math.round(props.value)}%`}</Typography>
+			</Box>
+		</Box>
+	);
+}
+
+CircularProgressWithLabel.propTypes = {
+	value: PropTypes.number.isRequired,
+};
 
 const AdminUpload = ({
 	error,
@@ -86,11 +113,11 @@ const AdminUpload = ({
 	setFiles,
 	setError,
 	setSuccess,
+	percentage,
 }) => {
 	const styles = useStyles();
 	const [show, setShow] = useState(false);
 	const res = useFirestore("gallery");
-	console.log(res);
 
 	const handleSubmit = (e) => {
 		handleImageUploads(e, "gallery");
@@ -139,19 +166,29 @@ const AdminUpload = ({
 							)}
 							{error && <p style={{ color: "red" }}>{error}</p>}
 							<div>
-								<button
+								<Button
 									onClick={() => {
 										setFiles(null);
-										setShow((show) => !show);
+										setShow(!show);
 										setError(null);
 									}}
 									className={styles.formCancel}
+									startIcon={<CancelIcon />}
 								>
 									Cancel
-								</button>
-								<button disabled={loading} className={styles.formSubmit}>
-									{loading ? "Uploading..." : "Upload"}
-								</button>
+								</Button>
+								<Button
+									type="submit"
+									className={styles.formSubmit}
+									disabled={loading}
+									startIcon={<PublishRoundedIcon />}
+								>
+									{loading ? (
+										<CircularProgressWithLabel value={percentage} />
+									) : (
+										"Upload"
+									)}
+								</Button>
 							</div>
 						</form>
 						<div style={files && { margin: "1rem 0" }}>
@@ -168,17 +205,41 @@ const AdminUpload = ({
 					</div>
 				)}
 			</div>
-			{res.length > 0 &&
-				res.map((doc) => (
-					<img
-						src={doc.url}
-						alt={doc.url}
-						key={Math.round(Math.random() * 100)}
-					/>
-				))}
+			<Container maxWidth="lg">
+				<Grid container spacing={2} justify="center" style={{ width: "100%" }}>
+					{res.length > 0 &&
+						res.map((doc) => (
+							<Grid
+								item
+								xs={12}
+								sm={6}
+								md={4}
+								lg={3}
+								style={{ width: "100%" }}
+								key={Math.round(Math.random() * 100)}
+							>
+								<Paper
+									variant="outlined"
+									elevation={3}
+									style={{ width: "100%" }}
+								>
+									<img
+										style={{ width: "100%", objectFit: "contain" }}
+										src={doc.url}
+										alt={doc.url}
+									/>
+								</Paper>
+							</Grid>
+						))}
+				</Grid>
+			</Container>
 		</section>
 	);
 };
+AdminUpload.propTypes = {
+	loading: PropTypes.bool.isRequired,
+	success: PropTypes.bool.isRequired,
+	percentage: PropTypes.number.isRequired,
+};
 
 export default AdminUpload;
-// disabled={!files || error}

@@ -10,6 +10,7 @@ const Admin = () => {
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [success, setSuccess] = useState(false);
+	const [percentage, setPercentage] = useState(0);
 
 	const changeHandler = (e) => {
 		let selected = e.target.files;
@@ -30,7 +31,7 @@ const Admin = () => {
 	const handleImageUploads = (e, type) => {
 		e.preventDefault();
 		if (!files) {
-			setError("**No images selected");
+			setError("No images selected");
 			return;
 		}
 		if (!error && files && type.trim() !== "") {
@@ -42,11 +43,10 @@ const Admin = () => {
 				storageRef.put(file).on(
 					"state_changed",
 					(snap) => {
-						let percentage = (snap.bytesTransferred / snap.totalBytes) * 100;
-						console.log(percentage);
+						setPercentage((snap.bytesTransferred / snap.totalBytes) * 100);
 					},
 					(err) => {
-						setError("**Something went wrong, Try again");
+						setError("Something went wrong, Try again");
 					},
 					async () => {
 						const url = await storageRef.getDownloadURL();
@@ -80,6 +80,7 @@ const Admin = () => {
 					loading={loading}
 					success={success}
 					setSuccess={setSuccess}
+					percentage={percentage}
 				/>
 			</div>
 		</>
