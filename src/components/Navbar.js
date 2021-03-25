@@ -105,6 +105,13 @@ function Navbar(props) {
 										</Typography>
 									</MyButton>
 								</Link>
+								<Link to="community">
+									<MyButton tip="Events" btnClassName={classes.btnClass}>
+										<Typography className={classes.navTypo} color="primary">
+											Community
+										</Typography>
+									</MyButton>
+								</Link>
 								<Link to="contact">
 									<MyButton tip="Contact" btnClassName={classes.btnClass}>
 										<Typography className={classes.navTypo} color="primary">

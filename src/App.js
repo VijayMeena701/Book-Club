@@ -13,6 +13,7 @@ import Contact from "./pages/Contact";
 import Gallery from "./pages/Gallery";
 import Events from "./pages/Events";
 import Teams from "./pages/Teams";
+import Community from "./pages/Community";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import { AdminAuthProvider } from "./context/AdminAuthContext";
@@ -43,14 +44,17 @@ function App() {
 		<MuiThemeProvider theme={theme}>
 			<Router>
 				<Navbar />
-				<Switch>
-					<Route exact path="/" component={Home} />
-					<Route exact path="/about" component={About} />
-					<Route exact path="/contact" component={Contact} />
-					<Route exact path="/gallery" component={Gallery} />
-					<Route exact path="/events" component={Events} />
-					<Route exact path="/teams" component={Teams} />
-				</Switch>
+				<div className="container">
+					<Switch>
+						<Route exact path="/" component={Home} />
+						<Route exact path="/about" component={About} />
+						<Route exact path="/contact" component={Contact} />
+						<Route exact path="/gallery" component={Gallery} />
+						<Route exact path="/events" component={Events} />
+						<Route exact path="/teams" component={Teams} />
+						<Route exact path="/community" component={Community} />
+					</Switch>
+				</div>
 				<AdminAuthProvider>
 					<Switch>
 						<Route exact path="/admin" component={AdminLogin} />
