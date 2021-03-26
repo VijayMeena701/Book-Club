@@ -11,6 +11,7 @@ const Admin = () => {
 	const [loading, setLoading] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [percentage, setPercentage] = useState(0);
+	const [toBeUploaded,setToBeUploaded] = useState(false);
 
 	const changeHandler = (e) => {
 		let selected = e.target.files;
@@ -22,8 +23,10 @@ const Admin = () => {
 		if (selected && areAllValid) {
 			setFiles(selected);
 			setError(null);
+			setToBeUploaded(true);
 		} else {
 			setFiles(null);
+			setToBeUploaded(false);
 			setError("please select a image file(png or jpeg)");
 		}
 	};
@@ -81,6 +84,8 @@ const Admin = () => {
 					success={success}
 					setSuccess={setSuccess}
 					percentage={percentage}
+					toBeUploaded={toBeUploaded}
+					setToBeUploaded={setToBeUploaded}
 				/>
 			</div>
 		</>

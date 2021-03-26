@@ -114,6 +114,8 @@ const AdminUpload = ({
 	setError,
 	setSuccess,
 	percentage,
+	toBeUploaded,
+	setToBeUploaded,
 }) => {
 	const styles = useStyles();
 	const [show, setShow] = useState(false);
@@ -161,6 +163,9 @@ const AdminUpload = ({
 								id="gallery-input"
 								hidden="hidden"
 							/>
+							{toBeUploaded && (
+								<p style={{color: "#468847	", padding: '0.25em 1em', backgroundColor: '#DFF0D8', borderRadius: '5px'}}>Files Selected To Upload</p>
+							)}
 							{success && (
 								<p style={{ color: "#28a745" }}>Uploaded successfully</p>
 							)}
@@ -171,13 +176,15 @@ const AdminUpload = ({
 										setFiles(null);
 										setShow(!show);
 										setError(null);
+										setToBeUploaded(false);
 									}}
 									className={styles.formCancel}
 									startIcon={<CancelIcon />}
 								>
 									Cancel
 								</Button>
-								<Button
+								{toBeUploaded && (
+									<Button
 									type="submit"
 									className={styles.formSubmit}
 									disabled={loading}
@@ -189,23 +196,48 @@ const AdminUpload = ({
 										"Upload"
 									)}
 								</Button>
+								)}
 							</div>
 						</form>
-						<div style={files && { margin: "1rem 0" }}>
-							{files &&
-								[...files].map((file) => (
-									<img
-										src={URL.createObjectURL(file)}
-										alt={file.name}
-										key={Math.floor(Math.random() * 100000)}
-										style={{ width: "200px", margin: "0 2px" }}
-									/>
-								))}
-						</div>
+							<Container maxWidth="lg">
+								<Grid container spacing={2} justify="center" style={ files ? { width: "100%", padding: '1rem 0' } : {width: '100%', margin: '0.1rem 0'}}>
+									{files && [...files].map((file,index) => (
+											<Grid
+												item
+												xs={12}
+												sm={6}
+												md={4}
+												lg={3}
+												style={{ width: "100%" }}
+												key={index}
+											>
+												<Paper
+													variant="outlined"
+													elevation={3}
+													style={{ width: "100%", height: '100%', justifyContent: 'center', alignItems: 'center', margin: 'auto',display: 'flex' }}
+												>
+													<img
+														style={{ width: "100%", objectFit: "contain" }}
+														src={URL.createObjectURL(file)}
+														alt={file.name}
+													/>
+												</Paper>
+											</Grid>
+										))}
+								</Grid>
+							</Container>
 					</div>
 				)}
 			</div>
 			<Container maxWidth="lg">
+				<div style={{padding: '1em'}}>
+					<Typography
+						variant="h5"
+						style={{ fontWeight: "bold", color: "#303952" }}
+					>
+						{res.length > 0 ? 'Recent Images': 'No Images found in Gallery'}
+					</Typography>
+				</div>
 				<Grid container spacing={2} justify="center" style={{ width: "100%" }}>
 					{res.length > 0 &&
 						res.map((doc) => (
@@ -221,7 +253,7 @@ const AdminUpload = ({
 								<Paper
 									variant="outlined"
 									elevation={3}
-									style={{ width: "100%" }}
+									style={{ width: "100%", height: '100%', justifyContent: 'center', alignItems: 'center', margin: 'auto',display: 'flex' }}
 								>
 									<img
 										style={{ width: "100%", objectFit: "contain" }}
