@@ -15,6 +15,7 @@ import Events from "./pages/Events";
 import Teams from "./pages/Teams";
 import Community from "./pages/Community";
 import AdminLogin from "./pages/admin/AdminLogin";
+import Error from './pages/Error'
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import { AdminAuthProvider } from "./context/AdminAuthContext";
 import PrivateRoute from "./components/PrivateRoute";
@@ -65,6 +66,9 @@ function App() {
 						/>
 					</Switch>
 				</AdminAuthProvider>
+				<Switch>
+					<Route path="*" component={Error}/>
+				</Switch>
 				<Footer />
 			</Router>
 		</MuiThemeProvider>
