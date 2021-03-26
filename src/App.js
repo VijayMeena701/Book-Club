@@ -15,10 +15,10 @@ import Events from "./pages/Events";
 import Teams from "./pages/Teams";
 import Community from "./pages/Community";
 import AdminLogin from "./pages/admin/AdminLogin";
-import Error from './pages/Error'
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import { AdminAuthProvider } from "./context/AdminAuthContext";
 import PrivateRoute from "./components/PrivateRoute";
+import Error from './pages/Error'
 
 const theme = createMuiTheme({
 	palette: {
@@ -46,7 +46,9 @@ function App() {
 			<Router>
 				<Navbar />
 				<div className="container">
+				<AdminAuthProvider>
 					<Switch>
+						<Route exact path="/admin" component={AdminLogin} />
 						<Route exact path="/" component={Home} />
 						<Route exact path="/about" component={About} />
 						<Route exact path="/contact" component={Contact} />
@@ -54,21 +56,15 @@ function App() {
 						<Route exact path="/events" component={Events} />
 						<Route exact path="/teams" component={Teams} />
 						<Route exact path="/community" component={Community} />
-					</Switch>
-				</div>
-				<AdminAuthProvider>
-					<Switch>
-						<Route exact path="/admin" component={AdminLogin} />
 						<PrivateRoute
 							exact
 							path="/admin/dashboard"
 							component={AdminDashboard}
 						/>
+						<Route exact path="*" component={Error}/>
 					</Switch>
 				</AdminAuthProvider>
-				<Switch>
-					<Route path="*" component={Error}/>
-				</Switch>
+				</div>
 				<Footer />
 			</Router>
 		</MuiThemeProvider>
