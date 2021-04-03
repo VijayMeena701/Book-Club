@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import PropTypes from "prop-types";
+import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@material-ui/core/IconButton';
 import { Link, useLocation } from "react-router-dom";
+import SideDrawer from './SideDrawer';
 
 import MyButton from "../utils/MyButton";
 
@@ -33,6 +36,21 @@ const styles = (theme) => ({
 		letterSpacing: "0em",
 		textAlign: "center",
 	},
+	navbar: {
+		display: 'block',
+		[theme.breakpoints.down("sm")]: {
+			display: "none"
+		}
+	},
+	drawerMenuBtn: {
+		display: 'block',
+		position: 'absolute',
+		top: '20px',
+		right: '0',
+		[theme.breakpoints.up("md")]: {
+			display: "none"
+		}
+	}
 });
 
 const exclueRoutes = ["/admin", "/admin/dashboard"];
@@ -40,6 +58,11 @@ function Navbar(props) {
 	const classes = props.classes;
 	const { pathname } = useLocation();
 	const show = exclueRoutes.includes(pathname);
+	const reftodiv = useRef(null);
+	const [showDrawer, setShowDrawer] = React.useState(false);
+	const toggle = (e) => {
+		setShowDrawer(!showDrawer)
+	}
 	return (
 		<>
 			{!show && (
@@ -59,7 +82,7 @@ function Navbar(props) {
 													letterSpacing: "0.15em",
 												}}
 											>
-												BOOK
+												THE
 											</div>
 											<div
 												style={{
@@ -70,13 +93,13 @@ function Navbar(props) {
 													letterSpacing: "0.15em",
 												}}
 											>
-												CLUB
+												ILLITERATI
 											</div>
 										</div>
 									</MyButton>
 								</Link>
 							</div>
-							<div>
+							<div className={classes.navbar} ref={reftodiv}>
 								<Link to="about">
 									<MyButton tip="About Us" btnClassName={classes.btnClass}>
 										<Typography className={classes.navTypo} color="primary">
@@ -105,13 +128,13 @@ function Navbar(props) {
 										</Typography>
 									</MyButton>
 								</Link>
-								<Link to="community">
+								{/* <Link to="community">
 									<MyButton tip="Events" btnClassName={classes.btnClass}>
 										<Typography className={classes.navTypo} color="primary">
 											Community
 										</Typography>
 									</MyButton>
-								</Link>
+								</Link> */}
 								<Link to="contact">
 									<MyButton tip="Contact" btnClassName={classes.btnClass}>
 										<Typography className={classes.navTypo} color="primary">
@@ -120,7 +143,13 @@ function Navbar(props) {
 									</MyButton>
 								</Link>
 							</div>
+							<div className={classes.drawerMenuBtn}>
+								<IconButton color="inherit" onClick={(e) => toggle(e)} >
+									<MenuIcon color="inherit" />
+								</IconButton>
+							</div>
 						</Toolbar>
+						<SideDrawer toggle={() => toggle} show={showDrawer} />
 					</AppBar>
 				</div>
 			)}

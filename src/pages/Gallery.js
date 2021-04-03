@@ -50,7 +50,7 @@ const styles = (theme) => ({
     width: '100%',
     padding: '5em 0',
     marginTop: '-30vh',
-    borderRadius: '0 250px 0 0',
+    borderRadius: "0 18vw 0 0",
     display: 'flex',
     [theme.breakpoints.down('md')]: {
       margin: '-15% auto 0 0',
@@ -60,8 +60,11 @@ const styles = (theme) => ({
     },
   },
   secContainer: {
-    width: '65vw',
-    margin: 'auto',
+    width: "65vw",
+    margin: "auto",
+    [theme.breakpoints.down("sm")]: {
+      width: '80%',
+    }
   },
   gridContainer: {
     position: 'relative',

@@ -63,9 +63,13 @@ const styles = (theme) => ({
           padding: '0.25em 1em',
           margin: '0',
           color: '#fff',
-          '&:hover': {
+          "& .icon": {
+            color: '#FFF',
+          },
+          '& :hover': {
             color: '#FFAA04',
           },
+
         },
       },
       '& ul': {
@@ -154,12 +158,7 @@ function Footer(props) {
                         </Grid>
                         <Grid item={true} sm={12} style={{ margin: '1em 0' }}>
                           <p>
-                            Duis aute irure dolor in reprehenderit in voluptate
-                            velit esse cillum dolore eu fugiat nulla pariatur.
-                            Duis aute irure dolor in reprehenderit in voluptate
-                            velit esse cillum dolore eu fugiat nulla pariatur.
-                            Duis aute irure dolor in reprehenderit in voluptate
-                            velit esse cillum dolore eu fugiat nulla pariatur.{' '}
+                            Nothing beats unwinding after a tough day like reading poetry, novels or even drama and savouring each written word as it was meant to be. Even better than reading another’s work is to write your own literary masterpiece for the world to appreciate. Spending time and having long enriching discussions on various day to day topics with like-minded people is a joy in itself! Illitertati gives you the perfect platform to achieve all of the above and even more!{' '}
                           </p>
                         </Grid>
                         <Grid item={true} sm={12} style={{ margin: '1em 0' }}>
@@ -167,36 +166,28 @@ function Footer(props) {
                             <li>
                               <Tooltip title="Facebook">
                                 <a href="# " rel="noreferrer noopener">
-                                  <FacebookIcon
-                                    style={{ fontSize: '3em', color: '#fff' }}
-                                  />
+                                  <FacebookIcon className="icon" />
                                 </a>
                               </Tooltip>
                             </li>
                             <li>
                               <Tooltip title="Twitter">
                                 <a href="# " rel="noreferrer noopener">
-                                  <TwitterIcon
-                                    style={{ fontSize: '3em', color: '#fff' }}
-                                  />
+                                  <TwitterIcon className="icon" />
                                 </a>
                               </Tooltip>
                             </li>
                             <li>
                               <Tooltip title="Instagram">
                                 <a href="# " rel="noreferrer noopener">
-                                  <InstagramIcon
-                                    style={{ fontSize: '3em', color: '#fff' }}
-                                  />
+                                  <InstagramIcon className="icon" />
                                 </a>
                               </Tooltip>
                             </li>
                             <li>
                               <Tooltip title="Youtube">
                                 <a href="# " rel="noreferrer noopener">
-                                  <YouTubeIcon
-                                    style={{ fontSize: '3em', color: '#fff' }}
-                                  />
+                                  <YouTubeIcon className="icon" />
                                 </a>
                               </Tooltip>
                             </li>

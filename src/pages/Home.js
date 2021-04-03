@@ -20,10 +20,17 @@ import union from "./Union.svg";
 const styles = (theme) => ({
 	root: {
 		background: "#222",
+		[theme.breakpoints.down("md")]: {
+			background: `url(${bookMain}) no-repeat center center fixed`,
+			backgroundSize: "cover",
+		},
 	},
 	ImgContainer: {
 		background: `url(${bookMain}) no-repeat center center fixed`,
 		backgroundSize: "cover",
+		[theme.breakpoints.down("md")]: {
+			background: 'none'
+		},
 		backgroundRepeat: "no-repeat",
 	},
 	textContainer: {
@@ -35,6 +42,10 @@ const styles = (theme) => ({
 		height: "66.083vw",
 		verticalAlign: "middle",
 		textAlign: "center",
+		[theme.breakpoints.down("sm")]: {
+			background: 'none',
+			height: '100vh'
+		},
 		"& div": {
 			width: "auto",
 			height: "auto",
@@ -43,20 +54,24 @@ const styles = (theme) => ({
 			paddingBottom: "18%",
 			"& p": {
 				// fontFamily: 'Lato',
-				fontSize: "60px",
+				fontSize: "3em",
 				fontStyle: "normal",
 				fontWeight: "900",
-				lineHeight: "80px",
 				letterSpacing: "0em",
+				padding: "0 1em",
 				textAlign: "center",
 				color: "#fff",
+				[theme.breakpoints.down("sm")]: {
+					fontSize: '1.5em',
+					lineHeight: 'normal'
+				}
 			},
 			"& Button": {
 				background: "#189ff9",
 				color: "#fff",
 				borderRadius: "27.5px",
 				fontSize: "20px",
-				padding: "1% 5%",
+				padding: "0.1em 1em",
 				fontWeight: 400,
 				marginTop: "30px",
 			},
@@ -65,7 +80,7 @@ const styles = (theme) => ({
 	secondSec: {
 		background: "#fff",
 		marginTop: "-30vh",
-		borderRadius: "0 250px 0 0",
+		borderRadius: "0 18vw 0 0",
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "space-between",
@@ -79,6 +94,9 @@ const styles = (theme) => ({
 	secContainer: {
 		width: "65vw",
 		margin: "auto",
+		[theme.breakpoints.down("sm")]: {
+			width: '95%',
+		}
 	},
 	gridContainer: {
 		position: "relative",
@@ -116,7 +134,7 @@ const styles = (theme) => ({
 			fontFamily: "Roboto",
 			fontWeight: "400",
 			fontSize: "18px",
-			lineHeight: "30px",
+			lineHeight: "24px",
 			overflowWrap: "anywhere",
 		},
 	},
@@ -222,8 +240,7 @@ function Home(props) {
 				<div className={classes.ImgContainer}>
 					<div className={classes.textContainer}>
 						<div>
-							<p>Together we're building</p>
-							<p>brighter futures</p>
+							<p>The literature club is one of the best places to go and refresh yourself after a long, tiring day </p>
 							<Link to="/about">
 								<Button>Learn More</Button>
 							</Link>
@@ -251,40 +268,21 @@ function Home(props) {
 									</div>
 									<br />
 									<div className="title">
-										<span>Welcome to Book Club</span>
+										<span>Welcome to the ILLITERATI</span>
 									</div>
 									<br />
 									<br />
 									<p>
-										Teritatis et quasi architecto. Sed ut perspiciatis unde
-										omnis iste natus error sit voluptatem accusantium dolore
-										mque laudantium, totam rem aperiam eaque ipsa quae ab illo
-										invent. Sed ut perspiciatis unde omnis.
+										Nothing beats unwinding after a tough day like reading poetry, novels or even drama and savouring each written word as it was meant to be. Even better than reading another’s work is to write your own literary masterpiece for the world to appreciate. Spending time and having long enriching discussions on various day to day topics with like-minded people is a joy in itself! Illitertati gives you the perfect platform to achieve all of the above and even more!
 									</p>
 									<br />
 									<br />
-									<Link to="/">
+									<Link to="/about">
 										<Button className={classes.btn}>Learn More</Button>
 									</Link>
 								</div>
 							</Grid>
-							<Grid item md={6}>
-								<div className={classes.aboutcontainer}>
-									<br />
-									<div className="title">
-										<span>Mission</span>
-									</div>
-									<br />
-									<br />
-									<p>
-										Teritatis et quasi architecto. Sed ut perspiciatis unde
-										omnis iste natus error sit voluptatem accusantium dolore
-										mque laudantium, totam rem aperiam eaque ipsa quae ab illo
-										invent. Sed ut perspiciatis unde omnis.
-									</p>
-								</div>
-							</Grid>
-							<Grid item md={6}>
+							<Grid item md={12}>
 								<div className={classes.aboutcontainer}>
 									<br />
 									<div className="title">
@@ -293,10 +291,7 @@ function Home(props) {
 									<br />
 									<br />
 									<p>
-										Teritatis et quasi architecto. Sed ut perspiciatis unde
-										omnis iste natus error sit voluptatem accusantium dolore
-										mque laudantium, totam rem aperiam eaque ipsa quae ab illo
-										invent. Sed ut perspiciatis unde omnis.
+										To help students widen their horizons by encouraging them to develop their literary knowledge and general awareness. To create a community that would serve as a safe space for healthy dialogue, debate and discussions. To encourage reading by introducing students to new genres and books with the help of the community members. To encourage writing through writing competitions, workshops and discussions.
 									</p>
 								</div>
 							</Grid>
@@ -314,7 +309,7 @@ function Home(props) {
 							</div>
 							{eventMarkup}
 							<div style={{ display: "flex", width: "100%" }}>
-								<Link to="/about" style={{ margin: "0 auto", width: "180px" }}>
+								<Link to="/events" style={{ margin: "0 auto", width: "180px" }}>
 									<Button className={classes.btn}>Learn More</Button>
 								</Link>
 							</div>
@@ -330,7 +325,7 @@ function Home(props) {
 							<div style={{ display: "flex", width: "100%" }}>
 								<Link
 									to="/gallery"
-									style={{ margin: "0 auto", width: "180px" }}
+									style={{ margin: "0 auto", display: 'flex', justifyContent: 'center', width: "180px" }}
 								>
 									<Button className={classes.btn}>View More</Button>
 								</Link>

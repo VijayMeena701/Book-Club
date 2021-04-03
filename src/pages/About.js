@@ -43,7 +43,7 @@ const styles = (theme) => ({
 	secondSec: {
 		background: "#fff",
 		marginTop: "-30vh",
-		borderRadius: "0 250px 0 0",
+		borderRadius: "0 18vw 0 0",
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "space-between",
@@ -141,43 +141,20 @@ function About(props) {
 							<Grid item md={12}>
 								<div className={classes.aboutcontainer}>
 									<div className="title">
-										<span>Welcome to Book Club</span>
+										<span>Welcome to the ILLITERATI</span>
 									</div>
 									<br />
 									<br />
 									<p>
-										Teritatis et quasi architecto. Sed ut perspiciatis unde
-										omnis iste natus error sit voluptatem accusantium dolore
-										mque laudantium, totam rem aperiam eaque ipsa quae ab illo
-										invent. Sed ut perspiciatis unde omnis. Teritatis et quasi
-										architecto. Sed ut perspiciatis unde omnis iste natus error
-										sit voluptatem accusantium dolore mque laudantium, totam rem
-										aperiam eaque ipsa quae ab illo invent. Sed ut perspiciatis
-										unde omnis. Teritatis et quasi architecto. Sed ut
-										perspiciatis unde omnis iste natus error sit voluptatem
-										accusantium dolore mque laudantium, totam rem aperiam eaque
-										ipsa quae ab illo invent. Sed ut perspiciatis unde omnis.
+										Nothing beats unwinding after a tough day like reading poetry,
+										novels or even drama and savouring each written word as it was meant to be.
+										Even better than reading another’s work is to write your own literary masterpiece for the world to appreciate.
+										Spending time and having long enriching discussions on various day to day topics with like-minded people is a joy in itself! Illitertati gives you the perfect platform to achieve all of the above and even more!
 									</p>
 									<br />
 								</div>
 							</Grid>
-							<Grid item md={6}>
-								<div className={classes.aboutcontainer}>
-									<br />
-									<div className="title">
-										<span>Mission</span>
-									</div>
-									<br />
-									<br />
-									<p>
-										Teritatis et quasi architecto. Sed ut perspiciatis unde
-										omnis iste natus error sit voluptatem accusantium dolore
-										mque laudantium, totam rem aperiam eaque ipsa quae ab illo
-										invent. Sed ut perspiciatis unde omnis.
-									</p>
-								</div>
-							</Grid>
-							<Grid item md={6}>
+							<Grid item md={12}>
 								<div className={classes.aboutcontainer}>
 									<br />
 									<div className="title">
@@ -186,10 +163,10 @@ function About(props) {
 									<br />
 									<br />
 									<p>
-										Teritatis et quasi architecto. Sed ut perspiciatis unde
-										omnis iste natus error sit voluptatem accusantium dolore
-										mque laudantium, totam rem aperiam eaque ipsa quae ab illo
-										invent. Sed ut perspiciatis unde omnis.
+										To help students widen their horizons by encouraging them to develop their literary knowledge and general awareness.
+										To create a community that would serve as a safe space for healthy dialogue, debate and discussions.
+										To encourage reading by introducing students to new genres and books with the help of the community members.
+										To encourage writing through writing competitions, workshops and discussions.
 									</p>
 								</div>
 							</Grid>

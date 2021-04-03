@@ -1,9 +1,9 @@
-import React,{useState } from 'react';
+import React, { useState } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 
 //Material UI Stuff
-import { Button, Grid, TextField} from '@material-ui/core';
+import { Button, Grid, TextField } from '@material-ui/core';
 
 import MapOutlinedIcon from '@material-ui/icons/MapOutlined';
 import PhoneIcon from '@material-ui/icons/Phone';
@@ -12,7 +12,7 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import contactMain from './contact.png';
 
 
-const styles = (theme)=> ({
+const styles = (theme) => ({
     root: {
         background: '#222',
     },
@@ -52,18 +52,21 @@ const styles = (theme)=> ({
         width: '100%',
         padding: '5em 0',
         marginTop: '-30vh',
-        borderRadius: '0 250px 0 0',
+        borderRadius: "0 18vw 0 0",
         display: 'flex',
         [theme.breakpoints.down('md')]: {
             margin: '-15% auto'
         },
-        [theme.breakpoints.down('sm')]:{
+        [theme.breakpoints.down('sm')]: {
             margin: '-5% auto'
         }
     },
     secContainer: {
-        width: '65vw',
-        margin: 'auto'
+        width: "65vw",
+        margin: "auto",
+        [theme.breakpoints.down("sm")]: {
+            width: '100%',
+        }
     },
     gridContainer: {
         position: 'relative',
@@ -72,7 +75,7 @@ const styles = (theme)=> ({
     },
     aboutcontainer: {
         padding: '2em',
-        '& .title':{
+        '& .title': {
             fontFamily: 'Lato',
             fontSize: '2.5rem',
             fontStyle: 'normal',
@@ -81,7 +84,7 @@ const styles = (theme)=> ({
             letterSpacing: '0em',
             textAlign: 'left',
         },
-        '& ul':{
+        '& ul': {
             display: 'flex',
             width: '100%',
             flexDirection: 'column',
@@ -136,7 +139,7 @@ const styles = (theme)=> ({
         flexDirection: 'column',
         justifySelf: 'center',
         // border: '2px solid #000',
-        '& .title':{
+        '& .title': {
             width: '100%',
             margin: 'auto',
             background: '#FFAA04',
@@ -167,7 +170,7 @@ const styles = (theme)=> ({
         margin: 'auto',
         '& .textField': {
             color: '#fff',
-            margin : '1em 0',
+            margin: '1em 0',
         }
     },
     multilineColor: {
@@ -177,9 +180,9 @@ const styles = (theme)=> ({
 });
 
 function Contact(props) {
-    const [name,setName] = useState('');
-    const [email,setEmail] = useState('');
-    const [message,setMessage] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
     const classes = props.classes;
 
     const handleSubmit = (event) => {
@@ -212,7 +215,7 @@ function Contact(props) {
                                     <div className="title">
                                         <span>Contact Info</span>
                                     </div>
-                                    <br/>
+                                    <br />
                                     <ul>
                                         <li>
                                             <PhoneIcon className="icon" />
@@ -238,9 +241,9 @@ function Contact(props) {
                                     </div>
                                     <div className={classes.contactForm}>
                                         <form className={classes.formRoot} autoComplete="off" onSubmit={handleSubmit}>
-                                            <TextField className="textField" InputProps={{className: classes.multilineColor}} InputLabelProps={{shrink: false}} type="text" variant="outlined" name='name' value={name} onChange={(e)=> setName(e.target.value)} placeholder="Your Name" />
-                                            <TextField className="textField" InputProps={{className: classes.multilineColor}} InputLabelProps={{shrink: false}} type="email" variant="outlined" name='email' value={email} onChange={(e)=> setEmail(e.target.value)} placeholder="Your Email" />
-                                            <TextField className="textField" InputProps={{className: classes.multilineColor}} InputLabelProps={{shrink: false}} type="text" variant="outlined" name='message' value={message} onChange={(e)=> setMessage(e.target.value)} multiline={true} rows={3} placeholder="Your Message" />
+                                            <TextField className="textField" InputProps={{ className: classes.multilineColor }} InputLabelProps={{ shrink: false }} type="text" variant="outlined" name='name' value={name} onChange={(e) => setName(e.target.value)} placeholder="Your Name" />
+                                            <TextField className="textField" InputProps={{ className: classes.multilineColor }} InputLabelProps={{ shrink: false }} type="email" variant="outlined" name='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your Email" />
+                                            <TextField className="textField" InputProps={{ className: classes.multilineColor }} InputLabelProps={{ shrink: false }} type="text" variant="outlined" name='message' value={message} onChange={(e) => setMessage(e.target.value)} multiline={true} rows={3} placeholder="Your Message" />
                                             <Button type="submit" className={classes.btn} >Submit</Button>
                                         </form>
                                     </div>

@@ -13,7 +13,7 @@ import Contact from "./pages/Contact";
 import Gallery from "./pages/Gallery";
 import Events from "./pages/Events";
 import Teams from "./pages/Teams";
-import Community from "./pages/Community";
+// import Community from "./pages/Community";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import { AdminAuthProvider } from "./context/AdminAuthContext";
@@ -46,24 +46,24 @@ function App() {
 			<Router>
 				<Navbar />
 				<div className="container">
-				<AdminAuthProvider>
-					<Switch>
-						<Route exact path="/admin" component={AdminLogin} />
-						<Route exact path="/" component={Home} />
-						<Route exact path="/about" component={About} />
-						<Route exact path="/contact" component={Contact} />
-						<Route exact path="/gallery" component={Gallery} />
-						<Route exact path="/events" component={Events} />
-						<Route exact path="/teams" component={Teams} />
-						<Route exact path="/community" component={Community} />
-						<PrivateRoute
-							exact
-							path="/admin/dashboard"
-							component={AdminDashboard}
-						/>
-						<Route exact path="*" component={Error}/>
-					</Switch>
-				</AdminAuthProvider>
+					<AdminAuthProvider>
+						<Switch>
+							<Route exact path="/admin" component={AdminLogin} />
+							<Route exact path="/" component={Home} />
+							<Route exact path="/about" component={About} />
+							<Route exact path="/contact" component={Contact} />
+							<Route exact path="/gallery" component={Gallery} />
+							<Route exact path="/events" component={Events} />
+							<Route exact path="/teams" component={Teams} />
+							{/* <Route exact path="/community" component={Community} /> */}
+							<PrivateRoute
+								exact
+								path="/admin/dashboard"
+								component={AdminDashboard}
+							/>
+							<Route exact path="*" component={Error} />
+						</Switch>
+					</AdminAuthProvider>
 				</div>
 				<Footer />
 			</Router>

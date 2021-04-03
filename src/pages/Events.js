@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
@@ -12,7 +12,7 @@ import OnGoingEvents from '../components/OnGoingEvents';
 import bookMain from './bookMain.png';
 
 
-const styles = (theme)=> ({
+const styles = (theme) => ({
     root: {
         background: '#222',
     },
@@ -50,24 +50,27 @@ const styles = (theme)=> ({
     secondSec: {
         background: '#fff',
         marginTop: '-30vh',
-        borderRadius: '0 250px 0 0',
+        borderRadius: "0 18vw 0 0",
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
         [theme.breakpoints.down('md')]: {
             margin: '-15% auto 0 0'
         },
-        [theme.breakpoints.down('sm')]:{
+        [theme.breakpoints.down('sm')]: {
             margin: '-5% auto 0 0'
         }
     },
     secContainer: {
-        width: '65vw',
-        margin: 'auto'
+        width: "65vw",
+        margin: "auto",
+        [theme.breakpoints.down("sm")]: {
+            width: '100%',
+        }
     },
     gridContainer: {
         position: 'relative',
-        margin: '80px auto 0' ,
+        margin: '80px auto 0',
         paddingTop: '2em',
     },
     aboutContTitle: {
@@ -79,7 +82,7 @@ const styles = (theme)=> ({
         },
         '& span': {
             fontSize: '21px',
-            fontFamily:'Lato',
+            fontFamily: 'Lato',
             fontWeight: '700',
             color: '#FFAA04',
             letterSpacing: '0.1em',
@@ -93,7 +96,7 @@ const styles = (theme)=> ({
             width: '100%',
             objectFit: 'cover',
         },
-        '& .title':{
+        '& .title': {
             fontFamily: 'Lato',
             fontSize: '2.5rem',
             fontStyle: 'normal',
@@ -115,7 +118,7 @@ const styles = (theme)=> ({
         position: 'relative',
         width: '100%',
         paddingBottom: '100%',
-        '& div':{
+        '& div': {
             display: 'block',
             width: '100%',
             position: 'absolute',
@@ -125,7 +128,7 @@ const styles = (theme)=> ({
                 width: '50%',
             }
         },
-        '& .libBookimg':{
+        '& .libBookimg': {
             position: 'absolute',
             top: '0',
             left: '0',
@@ -172,24 +175,24 @@ function Events(props) {
     var eventMarkup;
     var pastEventsMarkup;
 
-    if(!loading){
+    if (!loading) {
         eventMarkup = <Grid container spacing={2}>
-        {
-            data && data.slice(0,2).map((datum, index) => {
-                return <Grid item md={6} key={index} className="imagesBox" ><OnGoingEvents data={datum} /></Grid>
-            })
-        }
+            {
+                data && data.slice(0, 2).map((datum, index) => {
+                    return <Grid item md={6} key={index} className="imagesBox" ><OnGoingEvents data={datum} /></Grid>
+                })
+            }
         </Grid>
         pastEventsMarkup = <Grid container spacing={2}>
-        {
-            data && data.map((datum, index) => {
-                return <Grid item md={6} key={index} className="imagesBox" ><OnGoingEvents data={datum} /></Grid>
-            })
-        }
+            {
+                data && data.map((datum, index) => {
+                    return <Grid item md={6} key={index} className="imagesBox" ><OnGoingEvents data={datum} /></Grid>
+                })
+            }
         </Grid>
-        
+
     }
-    else{
+    else {
         eventMarkup = <Grid container spacing={2}>
             <CircularProgress color="primary" size={100} />
         </Grid>
@@ -197,7 +200,7 @@ function Events(props) {
     return (
         <>
             <section className={classes.root}>
-            <div className={classes.ImgContainer}>
+                <div className={classes.ImgContainer}>
                     <div className={classes.textContainer}>
                         <div>
                             <p>Events</p>
@@ -207,7 +210,7 @@ function Events(props) {
                 <div className={classes.secondSec}>
                     <div className={classes.secContainer}>
                         <div className={classes.aboutcontainer}>
-                            <br/>
+                            <br />
                             <div className="title">
                                 <span>On-going Events</span>
                             </div>
@@ -217,7 +220,7 @@ function Events(props) {
                     </div>
                     <div className={classes.secContainer}>
                         <div className={classes.aboutcontainer}>
-                            <br/>
+                            <br />
                             <div className="title">
                                 <span>Past Events</span>
                             </div>
