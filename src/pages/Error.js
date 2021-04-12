@@ -2,7 +2,7 @@ import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 
 const styles = (theme) => ({
@@ -11,7 +11,7 @@ const styles = (theme) => ({
 		background: "#fff",
 		"& .container": {
 			maxWidth: "1920px",
-            marginTop: '50px',
+			marginTop: '50px',
 			[theme.breakpoints.down('lg')]: {
 				maxWidth: "720px",
 			},
@@ -28,30 +28,30 @@ const styles = (theme) => ({
 		},
 		"& .contentBox": {
 			textAlign: "center",
-            boxSizing: 'border-box',
-            '& h3':{
-                marginTop: '-30px',
-                marginBottom: '10px',
-                fontSize: '30px',
-                fontWeight: '400',
-                lineHeight: '1.1'
-            },
-            '& p':{
-                margin: '0 0 10px',
-                textAlign: 'center',
-                fontSize: '14px',
-                lineHeight: '1.5'
-            }
+			boxSizing: 'border-box',
+			'& h3': {
+				marginTop: '-30px',
+				marginBottom: '10px',
+				fontSize: '30px',
+				fontWeight: '400',
+				lineHeight: '1.1'
+			},
+			'& p': {
+				margin: '0 0 10px',
+				textAlign: 'center',
+				fontSize: '14px',
+				lineHeight: '1.5'
+			}
 		},
 	},
-    btn:{
-        backgroundColor: 'pink',
-        color: '#000',
-        transition: 'all 0.3s',
-        "&:hover":{
-            color: '#fff'
-        }
-    }
+	btn: {
+		backgroundColor: 'pink',
+		color: '#000',
+		transition: 'all 0.3s',
+		"&:hover": {
+			color: '#fff'
+		}
+	}
 });
 
 function Error(props) {
@@ -66,11 +66,11 @@ function Error(props) {
 					<div className="contentBox">
 						<h3 className="h3">Look's like you're lost</h3>
 						<p>the page you are looking for is not avaible!</p>
-                        <Link to="/" >
-                            <Button color="secondary" className={classes.btn} variant="contained">
-                                Go to HOME
+						<Link to="/" >
+							<Button color="secondary" className={classes.btn} variant="contained">
+								Go to HOME
                             </Button>
-                        </Link>
+						</Link>
 					</div>
 				</Grid>
 			</Grid>

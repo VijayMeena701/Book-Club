@@ -3,7 +3,7 @@ import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 
-const styles = (theme)=> ({
+const styles = (theme) => ({
     container: {
         width: '100%',
         height: '100%',
@@ -11,7 +11,7 @@ const styles = (theme)=> ({
         flexDirection: 'column',
         boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.25)',
     },
-    imgContainer:{
+    imgContainer: {
         display: 'block',
         width: '100%',
         height: '100%',
@@ -43,17 +43,17 @@ const styles = (theme)=> ({
 
 function OnGoingEvents(props) {
     const classes = props.classes;
-    const {image, title, desc} = props.data;
+    const { imageUrl, title, desc } = props.data;
     return (
         <div className={classes.container}>
             <div className={classes.imgContainer}>
-                <img src={image} alt="" />
+                <img src={imageUrl} alt="" />
             </div>
             <div className={classes.eventHeading}>
                 <span>{title}</span>
                 <p>{desc}</p>
             </div>
-            <div/>
+            <div />
         </div>
     )
 }

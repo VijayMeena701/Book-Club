@@ -6,10 +6,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import GalleryImage from "../components/GalleryImages";
-
-//sample data
-import dataSet from "./data";
-import newImagesSet from "./ImagesSet";
+import { db } from '../utils/firebase';
 
 import OnGoingEvents from "../components/OnGoingEvents";
 
@@ -187,10 +184,12 @@ function Home(props) {
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState([]);
 	const [galleryImages, setGalleryImages] = useState([]);
+
 	const fetchData = async () => {
-		const newData = dataSet;
+		const newData = await db.collection('events').limit(3).get();
 		setData(newData);
-		setGalleryImages(newImagesSet);
+		const imageSet = await db.collection('gallery').get();
+		setGalleryImages(imageSet);
 		setLoading(false);
 	};
 
@@ -204,24 +203,24 @@ function Home(props) {
 
 	if (!loading) {
 		eventMarkup = (
-			<Grid container spacing={2}>
+			<Grid container spacing={2} justify="center">
 				{data &&
-					data.map((datum, index) => {
+					data.docs.map(datum => {
 						return (
-							<Grid item md={6} key={index}>
-								<OnGoingEvents data={datum} />
+							<Grid item md={6} key={datum.id}>
+								<OnGoingEvents data={datum.data()} />
 							</Grid>
 						);
 					})}
 			</Grid>
 		);
 		galleryMarkup = (
-			<Grid container spacing={2}>
+			<Grid container spacing={2} justify="center">
 				{galleryImages &&
-					galleryImages.map((image, index) => {
+					galleryImages.docs.map(image => {
 						return (
-							<Grid item md={4} sm={6} key={index}>
-								<GalleryImage imageUrl={image.image} />
+							<Grid item md={4} sm={6} key={image.id}>
+								<GalleryImage imageUrl={image.data().imageUrl} />
 							</Grid>
 						);
 					})}

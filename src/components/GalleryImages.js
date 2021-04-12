@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withStyles from  '@material-ui/core/styles/withStyles';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = (theme) => ({
-    imageContainer:{
+    imageContainer: {
         display: 'block',
         width: '100%',
         height: '100%',
@@ -16,7 +16,7 @@ const styles = (theme) => ({
 });
 
 function GalleryImages(props) {
-    const { classes, imageUrl }= props;
+    const { classes, imageUrl } = props;
     return (
         <div className={classes.imageContainer}>
             <img src={imageUrl} alt="EventPic" ></img>
