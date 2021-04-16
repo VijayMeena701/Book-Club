@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Typography, Button, Grid, Paper, Container, TextField } from '@material-ui/core';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import CancelIcon from '@material-ui/icons/Cancel';
-import PublishRoundedIcon from '@material-ui/icons/PublishRounded';
+import { Typography, Button, Grid } from '@material-ui/core';
 import { AiOutlinePlus } from 'react-icons/ai';
-import CircularProgressWithLabel from '../CircularProgressWithLabel';
+import MembersModal from './MembersModal';
+import { db, storage } from '../../utils/firebase';
 
 const styles = (theme) => ({
     section: {
@@ -70,26 +68,208 @@ const styles = (theme) => ({
         },
         marginRight: '0.5rem',
     },
+    imageWrapper: {
+        textAlign: "center",
+        width: '100%',
+        height: '200px',
+        position: "relative",
+        "& .coreImage": {
+            width: 200,
+            height: 200,
+            objectFit: "cover",
+            maxWidth: "100%",
+            borderRadius: "50%",
+        },
+        "& .button": {
+            position: "absolute",
+            top: "80%",
+            left: "55%",
+        }
+    },
+    dataContainer: {
+        width: '100%',
+    },
+    coreContainer: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
+    },
+    addCoreBtn: {
+        backgroundColor: '#5bc0de',
+        borderColor: '#46b8da',
+        color: '#fff',
+        transition: 'all ease 0.3s',
+        "&:hover": {
+            backgroundColor: '#31b0d5',
+            borderColor: '#269abf',
+            color: '#000'
+        }
+    }
 })
 
 function AdminTeams(props) {
-    const { error,
-        files,
-        loading,
-        success,
-        changeHandler,
-        handleImageUploads,
-        setFiles,
-        setError,
-        setSuccess,
-        percentage,
-        toBeUploaded,
-        setToBeUploaded,
-        type,
-        eventData,
-        setEventData } = props;
     const classes = props.classes;
+    const [modalType, setModalType] = useState("")
     const [show, setShow] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [teamShow, setTeamShow] = useState({
+        update: false,
+        add: false,
+        year: new Date().getFullYear()
+    });
+    const [core, setCore] = useState(null);
+    const [newTeamData, setNewTeamData] = useState({
+        id: new Date().getFullYear(),
+        members: 0,
+        core: {},
+        coordinators: [],
+        volunteers: []
+    });
+    const [finalData, setFinalData] = useState(null);
+
+    // const fetchData = async () => {
+    //     const teamData = await db.doc(`teams/${teamShow.year}`).get();
+    //     console.log(teamData.data());
+    // }
+
+    // const handleEditImage = () => {
+    //     const fileInput = document.getElementById("imageFile");
+    //     fileInput.click();
+    // };
+
+    // const handleImageUpload = (file, type) => {
+
+    //     setNewTeamData({ ...newTeamData, core: { ...newTeamData.core, imgUrl: URL.createObjectURL(file) } })
+    //     const storageRef = storage.ref(`teams/${type}/${file.name}`);
+    // }
+
+    // const changeHandler = (e) => {
+    //     let selected = e.target.files;
+    //     let areAllValid = true;
+    //     [...selected].forEach((file) => {
+    //         if (!types.includes(file.type)) areAllValid = false;
+    //     });
+
+    //     if (selected && areAllValid) {
+    //         setSelectImage(selected[0]);
+    //         // setError(null);
+    //         // setToBeUploaded(true);
+    //         handleImageUpload(selected[0], e.target.name)
+    //     } else {
+    //         setSelectImage(null);
+    //         // setToBeUploaded(false);
+    //         // setError('please select a image file(png or jpeg)');
+    //     }
+    // }
+
+
+    // const addNewTeamData = (e) => {
+    //     e.preventDefault();
+    //     // console.log(newTeamData);
+    // }
+    // const uploadCoreData = async () => {
+    //     const teamsRef = db.collection("teams");
+    //     if (newTeamData.core.imgUrl !== null) {
+    //         const storagefileRef = storage.ref(`teams/core/${newTeamData.core.imgUrl.name}`);
+    //         storagefileRef.put(newTeamData.core.imgUrl).on(
+    //             'state_changed',
+    //             (snap) => {
+    //                 setUploadPercent((snap.bytesTransferred / snap.totalBytes) * 100)
+    //             },
+    //             (err) => {
+    //                 console.log(err);
+    //             },
+    //             () => {
+    //                 storagefileRef.getDownloadURL().then((downloadURL) => {
+    //                     return db.doc(`/teams/${new Date().getFullYear()}`).set({ ...newTeamData, core: { ...newTeamData.core, imgUrl: downloadURL } })
+    //                 }).catch(err => console.error(err));
+    //             }
+    //         )
+    //     }
+    // }
+
+
+    const [uploadPercent, setUploadPercent] = useState(0);
+    const clearData = () => {
+        setNewTeamData({
+            members: 0,
+            core: {},
+            coordinators: [],
+            volunteers: []
+        });
+        setCore(null);
+    };
+
+    // const uploadFullData = (param, callback) => {
+    //     let teamDatatobeUploaded = { ...newTeamData };
+    //     if (newTeamData.core.imgUrl) {
+    //         const fileref = storage.ref(`teams/core/${newTeamData.core.imgUrl.name}`);
+    //         fileref.put(newTeamData.core.imgUrl).on('state_changed', (snapshot) => {
+    //             //do something here
+    //         }, (err) => {
+    //             console.error(err);
+    //         },
+    //             () => {
+    //                 fileref.getDownloadURL().then((downloadURL) => {
+    //                     teamDatatobeUploaded = { ...newTeamData, core: { ...newTeamData.core, imgUrl: downloadURL }, coordinators: [], volunteers: [] }
+    //                     // setFinalData({ ...newTeamData, core: { ...newTeamData.core, imgUrl: downloadURL }, coordinators: [], volunteers: [] });
+    //                 }).catch((err) => console.error(err));
+    //             });
+    //     }
+    //     if (newTeamData.coordinators.length !== 0) {
+    //         [...newTeamData.coordinators].forEach((object) => {
+    //             const fileref = storage.ref(`teams/coordinators/${object.imgUrl.name}`);
+    //             fileref.put(object.imgUrl).on('state_changed', (snapshot) => {
+    //                 //do something here
+    //             }, (err) => {
+    //                 console.error(err);
+    //             },
+    //                 () => {
+    //                     fileref.getDownloadURL().then((downloadURL) => {
+    //                         const data = { ...object, imgUrl: downloadURL };
+    //                         teamDatatobeUploaded = { ...teamDatatobeUploaded, coordinators: [...teamDatatobeUploaded.coordinators, { ...data }] }
+    //                         // setFinalData({ ...finalData, coordinators: [...finalData.coordinators, { ...data }] });
+    //                     }).catch((err) => console.error(err));
+    //                 });
+    //         })
+    //     }
+    //     if (newTeamData.volunteers.length !== 0) {
+    //         [...newTeamData.volunteers].forEach((object) => {
+    //             const fileref = storage.ref(`teams/volunteers/${object.imgUrl.name}`);
+    //             fileref.put(object.imgUrl).on('state_changed', (snapshot) => {
+    //                 //do something here
+    //             }, (err) => {
+    //                 console.error(err);
+    //             },
+    //                 () => {
+    //                     fileref.getDownloadURL().then((downloadURL) => {
+    //                         const data = { ...object, imgUrl: downloadURL };
+    //                         teamDatatobeUploaded = { ...teamDatatobeUploaded, volunteers: [...teamDatatobeUploaded.volunteers, { ...data }] }
+    //                         // setFinalData({ ...finalData, volunteers: [...finalData.volunteers, { ...data }] });
+    //                     }).catch((err) => console.error(err));
+    //                 });
+    //         })
+    //     }
+    //     param = teamDatatobeUploaded;
+    //     console.log(param);
+    //     callback(param);
+    // }
+
+    // const finalFunction = (someVar) => {
+    //     db.doc(`/teams/${new Date().getFullYear()}`).set(someVar);
+    // }
+
+    const submitData = async (e) => {
+        // e.preventDefault();
+        // db.doc(`/teams/${new Date().getFullYear()}`).add({ ...newTeamData });
+        db.collection('teams').doc(new Date().getFullYear().toString()).set(newTeamData);
+    };
+
+    useEffect(() => {
+        console.log(newTeamData);
+    }, [newTeamData])
+
     return (
         <section className={classes.section} >
             <div className={classes.head}>
@@ -98,7 +278,7 @@ function AdminTeams(props) {
                         variant="h5"
                         style={{ fontWeight: 'bold', color: '#303952' }}
                     >
-                        <span style={{ textTransform: 'capitalize' }}>Update</span> Teams Info
+                        Update Teams Info
           			</Typography>
                     <AiOutlinePlus
                         className={classes.showBtn}
@@ -108,123 +288,137 @@ function AdminTeams(props) {
                 </div>
                 {show && (
                     <div className={classes.formContainer}>
-                        <form>
-                            <div className={classes.form}>
-                                <Button
-                                    startIcon={<CloudUploadIcon />}
-                                    color="secondary"
-                                    onClick={() => document.getElementById(`${type}-input`).click()}
-                                    style={{ margin: '0 16px' }}
-                                >
-                                    Select Files
-                                </Button>
-                                <input
-                                    type="file"
-                                    onChange={changeHandler}
-                                    multiple
-                                    accept="image/png, image/jpeg"
-                                    id={`${type}-input`}
-                                    hidden="hidden"
-                                />
-                                {toBeUploaded && (
-                                    <p
-                                        style={{
-                                            color: '#468847	',
-                                            padding: '0.25em 1em',
-                                            backgroundColor: '#DFF0D8',
-                                            borderRadius: '5px',
-                                        }}
-                                    >
-                                        Files Selected To Upload
-                                    </p>
-                                )}
-                                {success && (
-                                    <p style={{ color: '#28a745' }}>Uploaded successfully</p>
-                                )}
-                                {error && <p style={{ color: 'red' }}>{error}</p>}
-                                <div>
-                                    <Button
-                                        onClick={() => {
-                                            setFiles(null);
-                                            setShow(!show);
-                                            setError(null);
-                                            setToBeUploaded(false);
-                                        }}
-                                        className={classes.formCancel}
-                                        startIcon={<CancelIcon />}
-                                    >
-                                        Cancel
-                </Button>
-                                    {toBeUploaded && (
-                                        <Button
-                                            type="submit"
-                                            className={classes.formSubmit}
-                                            disabled={loading}
-                                            startIcon={<PublishRoundedIcon />}
-                                        >
-                                            {loading ? (
-                                                <CircularProgressWithLabel value={percentage} />
-                                            ) : (
-                                                'Upload'
-                                            )}
-                                        </Button>
-                                    )}
-                                </div>
-                            </div>
-                            <div>
-                                {type === "events" ? <div style={{ width: '85%', margin: '10px auto', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                                    <TextField required name="title" variant="outlined" color="secondary" fullWidth placeholder="Title of Event" onChange={e => setEventData({ ...eventData, [e.target.name]: e.target.value })} />
-                                    <TextField required name="desc" variant="outlined" color="secondary" fullWidth placeholder="Description of Event" onChange={e => setEventData({ ...eventData, [e.target.name]: e.target.value })} />
-                                    <TextField required name="venue" variant="outlined" color="secondary" fullWidth placeholder="Venue of Event" onChange={e => setEventData({ ...eventData, [e.target.name]: e.target.value })} />
-                                    <TextField required name="organizers" variant="outlined" color="secondary" fullWidth placeholder="Organizers of Event" onChange={e => setEventData({ ...eventData, [e.target.name]: e.target.value })} />
-                                    <TextField required name="eventTime" defaultValue="today" type="datetime-local" variant="outlined" color="secondary" fullWidth placeholder="Event Time" onChange={e => setEventData({ ...eventData, [e.target.name]: e.target.value })} />
-                                </div> : null}
-                            </div>
-                        </form>
-                        <Container maxWidth="lg">
-                            <Grid
-                                container
-                                spacing={2}
-                                justify="center"
-                                style={
-                                    files
-                                        ? { width: '100%', padding: '1rem 0' }
-                                        : { width: '100%', margin: '0.1rem 0' }
-                                }
-                            >
-                                {files &&
-                                    [...files].map((file, index) => (
-                                        <Grid
-                                            item
-                                            xs={12}
-                                            sm={6}
-                                            md={4}
-                                            lg={3}
-                                            style={{ width: '100%' }}
-                                            key={index}
-                                        >
-                                            <Paper
-                                                variant="outlined"
-                                                elevation={3}
-                                                style={{
-                                                    width: '100%',
-                                                    height: '100%',
-                                                    justifyContent: 'center',
-                                                    alignItems: 'center',
-                                                    margin: 'auto',
-                                                    display: 'flex',
-                                                }}
-                                            >
-                                                <img
-                                                    style={{ width: '100%', objectFit: 'contain' }}
-                                                    src={URL.createObjectURL(file)}
-                                                    alt={file.name}
-                                                />
-                                            </Paper>
-                                        </Grid>
-                                    ))}
-                            </Grid>
-                        </Container>
+                        <div>
+                            {!teamShow.update ?
+                                <Button variant="contained" style={{ backgroundColor: '#28a745', color: 'white' }} onClick={(e) => setTeamShow({ ...teamShow, update: !teamShow.update })} >Add New Team</Button> :
+                                <div style={{ display: 'flex', justifyContent: 'space-between' }} ><Button variant="contained" color="secondary" onClick={(e) => setTeamShow({ ...teamShow, update: !teamShow.update })} >Close</Button><Typography>Members Count: {newTeamData.members}</Typography></div>
+                            }
+                            {
+                                teamShow.update && (
+                                    <div className={classes.teamsDataContainer}>
+                                        <div className={classes.teamMapContainer} >
+                                            {
+                                                newTeamData.core.name && (
+                                                    <div key={newTeamData.core.rollNo}>
+                                                        <div className={classes.coreContainer}>
+                                                            <p style={{ textAlign: 'center', fontSize: '1.25em' }}>Core Info</p>
+                                                            <div className={classes.imageWrapper}>
+                                                                <img src={newTeamData.core.imgUrl ? newTeamData.core.imgUrl : null} alt="Core-Pic" className="coreImage" />
+                                                            </div>
+                                                            <div className={classes.dataContainer}>
+                                                                <Grid container spacing={3} justify="space-evenly" >
+                                                                    <Grid item xs={12} sm={6} md={6} style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
+                                                                        <Typography align="center" variant="h6" color="inherit" >Name:{newTeamData.core.name}</Typography>
+                                                                    </Grid>
+                                                                    <Grid item xs={12} sm={6} md={6} style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
+                                                                        <Typography align="center" variant="h6" color="inherit" >Roll No:{newTeamData.core.rollNo}</Typography>
+                                                                    </Grid>
+                                                                    <Grid item xs={12} sm={6} md={6} style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
+                                                                        <Typography align="center" variant="h6" color="inherit" >Contact No:{newTeamData.core.contactNo}</Typography>
+                                                                    </Grid>
+                                                                    <Grid item xs={12} sm={6} md={6} style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
+                                                                        <Typography align="center" variant="h6" color="inherit" >Email Id:{newTeamData.core.emailId}</Typography>
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <hr />
+                                                        <hr />
+                                                        <br />
+                                                        <br />
+                                                    </div>
+                                                )
+                                            }
+                                            {
+                                                newTeamData.coordinators.length !== 0 && newTeamData.coordinators.map((coOrdinator, index) => {
+                                                    const { name, rollNo, emailId, contactNo, imgUrl } = coOrdinator;
+                                                    return (
+                                                        <div key={index}>
+                                                            <div className={classes.coreContainer}>
+                                                                <p style={{ textAlign: 'center', fontSize: '1.25em' }}>Co-ordinators Info</p>
+                                                                <div className={classes.imageWrapper}>
+                                                                    <img src={imgUrl} alt="Co-ordinator_Pic" className="coreImage" />
+                                                                </div>
+                                                                <div className={classes.dataContainer}>
+                                                                    <Grid container spacing={3} justify="space-evenly" >
+                                                                        <Grid item xs={12} sm={6} md={6} style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
+                                                                            <Typography align="center" variant="h6" color="inherit" >Name:{name}</Typography>
+                                                                        </Grid>
+                                                                        <Grid item xs={12} sm={6} md={6} style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
+                                                                            <Typography align="center" variant="h6" color="inherit" >Roll No:{rollNo}</Typography>
+                                                                        </Grid>
+                                                                        <Grid item xs={12} sm={6} md={6} style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
+                                                                            <Typography align="center" variant="h6" color="inherit" >Contact No:{contactNo}</Typography>
+                                                                        </Grid>
+                                                                        <Grid item xs={12} sm={6} md={6} style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
+                                                                            <Typography align="center" variant="h6" color="inherit" >Email Id:{emailId}</Typography>
+                                                                        </Grid>
+                                                                    </Grid>
+                                                                </div>
+                                                            </div>
+                                                            <br />
+                                                            <hr />
+                                                            <br />
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                            <br />
+                                            <hr />
+                                            {
+                                                newTeamData.volunteers.length !== 0 && newTeamData.volunteers.map((volunteer, index) => {
+                                                    const { name, rollNo, emailId, contactNo, imgUrl } = volunteer;
+                                                    return (
+                                                        <div key={index}>
+                                                            <div className={classes.coreContainer}>
+                                                                <p style={{ textAlign: 'center', fontSize: '1.25em' }}>Volunteers Info</p>
+                                                                <div className={classes.imageWrapper}>
+                                                                    <img src={imgUrl} alt="Volunteer-Pic" className="coreImage" />
+                                                                </div>
+                                                                <div className={classes.dataContainer}>
+                                                                    <Grid container spacing={3} justify="space-evenly" >
+                                                                        <Grid item xs={12} sm={6} md={6} style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
+                                                                            <Typography align="center" variant="h6" color="inherit" >Name:{name}</Typography>
+                                                                        </Grid>
+                                                                        <Grid item xs={12} sm={6} md={6} style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
+                                                                            <Typography align="center" variant="h6" color="inherit" >Roll No:{rollNo}</Typography>
+                                                                        </Grid>
+                                                                        <Grid item xs={12} sm={6} md={6} style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
+                                                                            <Typography align="center" variant="h6" color="inherit" >Contact No:{contactNo}</Typography>
+                                                                        </Grid>
+                                                                        <Grid item xs={12} sm={6} md={6} style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
+                                                                            <Typography align="center" variant="h6" color="inherit" >Email Id:{emailId}</Typography>
+                                                                        </Grid>
+                                                                    </Grid>
+                                                                </div>
+                                                            </div>
+                                                            <br />
+                                                            <hr />
+                                                            <br />
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                            {
+                                                newTeamData.members !== 0 && (
+                                                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '20px' }}>
+                                                        <Button onClick={clearData} style={{ backgroundColor: '#e7e7e7' }} variant="contained" >Clear All</Button>
+                                                        <Button onClick={submitData} style={{ backgroundColor: '#008CBA' }} variant="contained" >Proceed and Upload Data </Button>
+                                                    </div>
+                                                )
+                                            }
+                                        </div>
+                                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                            <Button className={classes.addCoreBtn} disabled={core !== null ? true : false} onClick={() => { setModalOpen(true); setModalType('core') }} >Add Core</Button>
+                                            <Button className={classes.addCodBtn} onClick={() => { setModalOpen(true); setModalType('co-ordinator') }} >Add Co-ordinator</Button>
+                                            <Button className={classes.addVolBtn} onClick={() => { setModalOpen(true); setModalType('volunteer') }} >Add Volunteer</Button>
+                                        </div>
+                                        <MembersModal newTeamData={newTeamData} setNewTeamData={setNewTeamData} setCoreData={setCore} type={modalType} open={modalOpen} setOpen={setModalOpen} />
+                                    </div>
+                                )
+                            }
+                        </div>
                     </div>
                 )}
             </div>

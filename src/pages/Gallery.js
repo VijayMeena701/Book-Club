@@ -3,7 +3,9 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import GalleryImage from '../components/GalleryImages';
-import newImagesSet from './ImagesSet';
+import { db } from '../utils/firebase';
+
+// import newImagesSet from './ImagesSet';
 
 //Material UI Stuff
 import Grid from '@material-ui/core/Grid';
@@ -85,8 +87,10 @@ function Gallery(props) {
   const [galleryImages, setGalleryImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const classes = props.classes;
+
   const fetchData = async () => {
-    setGalleryImages(newImagesSet);
+    const imageSet = await db.collection('gallery').get();
+    setGalleryImages(imageSet);
     setLoading(false);
   };
 
@@ -101,10 +105,10 @@ function Gallery(props) {
     galleryMarkup = (
       <Grid container spacing={2}>
         {galleryImages &&
-          galleryImages.map((image, index) => {
+          galleryImages.docs.map((image, index) => {
             return (
               <Grid item md={3} sm={6} key={index} className="imagesBox">
-                <GalleryImage imageUrl={image.image} />
+                <GalleryImage imageUrl={image.data().imageUrl} />
               </Grid>
             );
           })}

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import GalleryImage from '../components/GalleryImages';
+import { db } from '../utils/firebase';
 
 //sample data
 import coordinatorSet from './coordinator';
@@ -164,23 +165,29 @@ const styles = (theme) => ({
 
 function Teams(props) {
     const classes = props.classes;
-
     const [loading, setLoading] = useState(true);
     const [coordinator, setCoordinator] = useState([]);
     const [volunteer, setVolunteer] = useState([]);
     const [coreImage, setCoreImage] = useState('');
+    const [teamData, setTeamData] = useState(null);
     const fetchData = async () => {
-        const newCoordinator = coordinatorSet;
-        const newVolunteer = volunteerSet;
-        setCoordinator(newCoordinator);
-        setVolunteer(newVolunteer);
-        setCoreImage('https://source.unsplash.com/random/640x480');
-        setLoading(false);
+        db.collection('teams').doc(new Date().getFullYear().toString()).get().then((doc) => {
+            const data = doc.data();
+            console.log(data);
+            setTeamData(data);
+            setLoading(false);
+        }).catch(err => console.log(err));
+        // setTeamData(await db.collection('teams').doc(new Date().getFullYear.toString()).get());
+        // setCoordinator(teamData.coordinators);
+        // setVolunteer(teamData.volunteers);
+        // setCoreImage('https://source.unsplash.com/random/640x480');
+        // setLoading(false);
     };
 
     useEffect(() => {
         setLoading(true);
         fetchData();
+        console.log(teamData);
     }, []);
     return (
         <>
@@ -203,7 +210,7 @@ function Teams(props) {
                             <Grid container spaciing={2} className={classes.containerClass}>
                                 {
                                     loading !== true ? <Grid item md={4}>
-                                        <GalleryImage imageUrl={coreImage} />
+                                        <GalleryImage imageUrl={teamData !== null ? teamData.core.imgUrl : null} />
                                     </Grid> :
                                         <Grid item ms={4}>
                                             <CircularProgress size="3rem" color="secondary" />
@@ -221,14 +228,14 @@ function Teams(props) {
                             <br />
                             <Grid container spacing={2} className={classes.containerClass}>
                                 {
-                                    loading !== true ? coordinator.map((datum, index) => (
+                                    loading !== true ? teamData.coordinators.map((datum, index) => (
                                         <Grid key={index} item md={4}>
-                                            <GalleryImage imageUrl={datum.coordinatorImage} />
+                                            <GalleryImage imageUrl={datum.imgUrl} />
                                         </Grid>
                                     )) :
                                         (
                                             <>
-                                                <CircularProgress size={200} />
+                                                <CircularProgress size="3rem" color="secondary" />
                                             </>
                                         )
                                 }
@@ -244,14 +251,14 @@ function Teams(props) {
                             <br />
                             <Grid container spacing={2} className={classes.containerClass}>
                                 {
-                                    loading !== true ? volunteer.map((datum, index) => (
-                                        <Grid key={index} item md={4}>
-                                            <GalleryImage imageUrl={datum.volunterImage} />
+                                    loading !== true ? teamData.volunteers.map((datum, index) => (
+                                        <Grid key={datum.rollNo} item md={4}>
+                                            <GalleryImage imageUrl={datum.imgUrl} />
                                         </Grid>
                                     )) :
                                         (
                                             <>
-                                                <CircularProgress size={200} />
+                                                <CircularProgress size="3rem" color="secondary" />
                                             </>
                                         )
                                 }

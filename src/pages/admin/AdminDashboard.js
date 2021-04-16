@@ -112,20 +112,6 @@ const Admin = () => {
 				/>
 				<AdminTeams
 					type="teams"
-					changeHandler={changeHandler}
-					files={files}
-					setFiles={setFiles}
-					error={error}
-					setError={setError}
-					handleImageUploads={handleImageUploads}
-					loading={loading}
-					success={success}
-					setSuccess={setSuccess}
-					percentage={percentage}
-					toBeUploaded={toBeUploaded}
-					setToBeUploaded={setToBeUploaded}
-					eventData={eventData}
-					setEventData={setEventData}
 				/>
 			</div>
 		</>
