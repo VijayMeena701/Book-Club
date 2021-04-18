@@ -12,7 +12,7 @@ import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import IconButton from '@material-ui/core/IconButton';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { storage } from '../../utils/firebase';
-import { Typography } from '@material-ui/core';
+import CircularProgressWithLabel from '../CircularProgressWithLabel'
 
 const styles = (theme) => ({
     imageWrapper: {
@@ -123,7 +123,7 @@ function MembersModal(props) {
 
     return (
         <div>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog open={open} onClose={handleCancel} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add {type} Details</DialogTitle>
                 <form onSubmit={handleSave}>
                     <DialogContent>
@@ -197,10 +197,12 @@ function MembersModal(props) {
                     <DialogActions>
                         <Button disabled={loading ? true : false} variant="contained" onClick={handleCancel} color="secondary">
                             Cancel
-                    </Button>
-                        <Button disabled={loading ? true : false} variant="contained" type="submit" color="secondary">
-                            Save
-                    </Button>
+                        </Button>
+                        {
+                            !loading ? <Button disabled={loading ? true : false} variant="contained" type="submit" color="secondary">
+                                Save
+                        </Button> : <Button><CircularProgressWithLabel value={progress} /></Button>
+                        }
                     </DialogActions>
                 </form>
             </Dialog>

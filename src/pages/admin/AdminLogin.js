@@ -60,9 +60,12 @@ const AdminLogin = (props) => {
 	const [disableBtn, setDisableBtn] = useState(false);
 	const [error, setError] = useState("");
 	const [values, setValues] = useState({
-		email: "bookclub.iiitdmk@gmail.com",
-		password: "BookClub@1234",
+		email: "",
+		password: "",
 	});
+
+	// 	email: "bookclub.iiitdmk@gmail.com",
+	// 	password: "BookClub@1234",
 
 	useEffect(() => {
 		if (admin) history.push("/admin/dashboard");

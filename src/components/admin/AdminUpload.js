@@ -131,7 +131,7 @@ const AdminUpload = ({
 									style={{ margin: '0 16px' }}
 								>
 									Select Files
-              </Button>
+              					</Button>
 								<input
 									type="file"
 									onChange={changeHandler}
@@ -191,7 +191,11 @@ const AdminUpload = ({
 									<TextField required name="desc" variant="outlined" color="secondary" fullWidth placeholder="Description of Event" onChange={e => setEventData({ ...eventData, [e.target.name]: e.target.value })} />
 									<TextField required name="venue" variant="outlined" color="secondary" fullWidth placeholder="Venue of Event" onChange={e => setEventData({ ...eventData, [e.target.name]: e.target.value })} />
 									<TextField required name="organizers" variant="outlined" color="secondary" fullWidth placeholder="Organizers of Event" onChange={e => setEventData({ ...eventData, [e.target.name]: e.target.value })} />
-									<TextField required name="eventTime" defaultValue="today" type="datetime-local" variant="outlined" color="secondary" fullWidth placeholder="Event Time" onChange={e => setEventData({ ...eventData, [e.target.name]: e.target.value })} />
+									<TextField required name="eventTime" defaultValue={new Date().toJSON().slice(0, 16)} type="datetime-local" variant="outlined" color="secondary" fullWidth placeholder="Event Time" onChange={e => setEventData({ ...eventData, [e.target.name]: e.target.value })} />
+									<div style={{ display: 'flex', justifyContent: 'flex-end', gap: '20px' }}>
+										<Button variant="contained" color="secondary" >Cancel</Button>
+										<Button variant="contained" color="secondary" >Save</Button>
+									</div>
 								</div> : null}
 							</div>
 						</form>

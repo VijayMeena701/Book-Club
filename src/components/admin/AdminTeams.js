@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Typography, Button, Grid } from '@material-ui/core';
 import { AiOutlinePlus } from 'react-icons/ai';
 import MembersModal from './MembersModal';
-import { db, storage } from '../../utils/firebase';
+import { db } from '../../utils/firebase';
 
 const styles = (theme) => ({
     section: {
@@ -126,71 +126,7 @@ function AdminTeams(props) {
         coordinators: [],
         volunteers: []
     });
-    const [finalData, setFinalData] = useState(null);
 
-    // const fetchData = async () => {
-    //     const teamData = await db.doc(`teams/${teamShow.year}`).get();
-    //     console.log(teamData.data());
-    // }
-
-    // const handleEditImage = () => {
-    //     const fileInput = document.getElementById("imageFile");
-    //     fileInput.click();
-    // };
-
-    // const handleImageUpload = (file, type) => {
-
-    //     setNewTeamData({ ...newTeamData, core: { ...newTeamData.core, imgUrl: URL.createObjectURL(file) } })
-    //     const storageRef = storage.ref(`teams/${type}/${file.name}`);
-    // }
-
-    // const changeHandler = (e) => {
-    //     let selected = e.target.files;
-    //     let areAllValid = true;
-    //     [...selected].forEach((file) => {
-    //         if (!types.includes(file.type)) areAllValid = false;
-    //     });
-
-    //     if (selected && areAllValid) {
-    //         setSelectImage(selected[0]);
-    //         // setError(null);
-    //         // setToBeUploaded(true);
-    //         handleImageUpload(selected[0], e.target.name)
-    //     } else {
-    //         setSelectImage(null);
-    //         // setToBeUploaded(false);
-    //         // setError('please select a image file(png or jpeg)');
-    //     }
-    // }
-
-
-    // const addNewTeamData = (e) => {
-    //     e.preventDefault();
-    //     // console.log(newTeamData);
-    // }
-    // const uploadCoreData = async () => {
-    //     const teamsRef = db.collection("teams");
-    //     if (newTeamData.core.imgUrl !== null) {
-    //         const storagefileRef = storage.ref(`teams/core/${newTeamData.core.imgUrl.name}`);
-    //         storagefileRef.put(newTeamData.core.imgUrl).on(
-    //             'state_changed',
-    //             (snap) => {
-    //                 setUploadPercent((snap.bytesTransferred / snap.totalBytes) * 100)
-    //             },
-    //             (err) => {
-    //                 console.log(err);
-    //             },
-    //             () => {
-    //                 storagefileRef.getDownloadURL().then((downloadURL) => {
-    //                     return db.doc(`/teams/${new Date().getFullYear()}`).set({ ...newTeamData, core: { ...newTeamData.core, imgUrl: downloadURL } })
-    //                 }).catch(err => console.error(err));
-    //             }
-    //         )
-    //     }
-    // }
-
-
-    const [uploadPercent, setUploadPercent] = useState(0);
     const clearData = () => {
         setNewTeamData({
             members: 0,
@@ -201,74 +137,9 @@ function AdminTeams(props) {
         setCore(null);
     };
 
-    // const uploadFullData = (param, callback) => {
-    //     let teamDatatobeUploaded = { ...newTeamData };
-    //     if (newTeamData.core.imgUrl) {
-    //         const fileref = storage.ref(`teams/core/${newTeamData.core.imgUrl.name}`);
-    //         fileref.put(newTeamData.core.imgUrl).on('state_changed', (snapshot) => {
-    //             //do something here
-    //         }, (err) => {
-    //             console.error(err);
-    //         },
-    //             () => {
-    //                 fileref.getDownloadURL().then((downloadURL) => {
-    //                     teamDatatobeUploaded = { ...newTeamData, core: { ...newTeamData.core, imgUrl: downloadURL }, coordinators: [], volunteers: [] }
-    //                     // setFinalData({ ...newTeamData, core: { ...newTeamData.core, imgUrl: downloadURL }, coordinators: [], volunteers: [] });
-    //                 }).catch((err) => console.error(err));
-    //             });
-    //     }
-    //     if (newTeamData.coordinators.length !== 0) {
-    //         [...newTeamData.coordinators].forEach((object) => {
-    //             const fileref = storage.ref(`teams/coordinators/${object.imgUrl.name}`);
-    //             fileref.put(object.imgUrl).on('state_changed', (snapshot) => {
-    //                 //do something here
-    //             }, (err) => {
-    //                 console.error(err);
-    //             },
-    //                 () => {
-    //                     fileref.getDownloadURL().then((downloadURL) => {
-    //                         const data = { ...object, imgUrl: downloadURL };
-    //                         teamDatatobeUploaded = { ...teamDatatobeUploaded, coordinators: [...teamDatatobeUploaded.coordinators, { ...data }] }
-    //                         // setFinalData({ ...finalData, coordinators: [...finalData.coordinators, { ...data }] });
-    //                     }).catch((err) => console.error(err));
-    //                 });
-    //         })
-    //     }
-    //     if (newTeamData.volunteers.length !== 0) {
-    //         [...newTeamData.volunteers].forEach((object) => {
-    //             const fileref = storage.ref(`teams/volunteers/${object.imgUrl.name}`);
-    //             fileref.put(object.imgUrl).on('state_changed', (snapshot) => {
-    //                 //do something here
-    //             }, (err) => {
-    //                 console.error(err);
-    //             },
-    //                 () => {
-    //                     fileref.getDownloadURL().then((downloadURL) => {
-    //                         const data = { ...object, imgUrl: downloadURL };
-    //                         teamDatatobeUploaded = { ...teamDatatobeUploaded, volunteers: [...teamDatatobeUploaded.volunteers, { ...data }] }
-    //                         // setFinalData({ ...finalData, volunteers: [...finalData.volunteers, { ...data }] });
-    //                     }).catch((err) => console.error(err));
-    //                 });
-    //         })
-    //     }
-    //     param = teamDatatobeUploaded;
-    //     console.log(param);
-    //     callback(param);
-    // }
-
-    // const finalFunction = (someVar) => {
-    //     db.doc(`/teams/${new Date().getFullYear()}`).set(someVar);
-    // }
-
     const submitData = async (e) => {
-        // e.preventDefault();
-        // db.doc(`/teams/${new Date().getFullYear()}`).add({ ...newTeamData });
         db.collection('teams').doc(new Date().getFullYear().toString()).set(newTeamData);
     };
-
-    useEffect(() => {
-        console.log(newTeamData);
-    }, [newTeamData])
 
     return (
         <section className={classes.section} >

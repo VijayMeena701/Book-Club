@@ -103,7 +103,7 @@ function Gallery(props) {
 
   if (!loading) {
     galleryMarkup = (
-      <Grid container spacing={2}>
+      <Grid justify="center" container spacing={2}>
         {galleryImages &&
           galleryImages.docs.map((image, index) => {
             return (
@@ -116,7 +116,7 @@ function Gallery(props) {
     );
   } else {
     galleryMarkup = (
-      <Grid container spacing={2}>
+      <Grid container justify="center" spacing={2}>
         <CircularProgress color="primary" size={100} />
       </Grid>
     );

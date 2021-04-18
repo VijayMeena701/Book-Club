@@ -3,9 +3,9 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { db } from '../utils/firebase';
 
 //sample data
-import dataSet from './data';
 
 import OnGoingEvents from '../components/OnGoingEvents';
 
@@ -162,7 +162,7 @@ function Events(props) {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const fetchData = async () => {
-        const newData = dataSet;
+        const newData = await db.collection('events').get();
         setData(newData);
         setLoading(false);
     };
@@ -178,15 +178,15 @@ function Events(props) {
     if (!loading) {
         eventMarkup = <Grid container spacing={2}>
             {
-                data && data.slice(0, 2).map((datum, index) => {
-                    return <Grid item md={6} key={index} className="imagesBox" ><OnGoingEvents data={datum} /></Grid>
+                data && data.docs.slice(0, 2).map((datum, index) => {
+                    return <Grid item md={6} key={index} className="imagesBox" ><OnGoingEvents data={datum.data()} /></Grid>
                 })
             }
         </Grid>
         pastEventsMarkup = <Grid container spacing={2}>
             {
-                data && data.map((datum, index) => {
-                    return <Grid item md={6} key={index} className="imagesBox" ><OnGoingEvents data={datum} /></Grid>
+                data && data.docs.slice(2).map((datum, index) => {
+                    return <Grid item md={6} key={index} className="imagesBox" ><OnGoingEvents data={datum.data()} /></Grid>
                 })
             }
         </Grid>

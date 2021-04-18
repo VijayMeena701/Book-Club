@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
+import emailjs from 'emailjs-com';
 
 //Material UI Stuff
-import { Button, Grid, TextField } from '@material-ui/core';
+import { Button, Grid, TextField, Typography } from '@material-ui/core';
 
 import MapOutlinedIcon from '@material-ui/icons/MapOutlined';
 import PhoneIcon from '@material-ui/icons/Phone';
@@ -183,16 +184,19 @@ function Contact(props) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
+    const [error, setError] = useState(null);
     const classes = props.classes;
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const messageData = {
-            name: name,
-            email: email,
-            message: message,
-        }
-        console.log(messageData); // send the data to server here.
+        //following line contains sensitive data do not temper.
+        emailjs.sendForm('gmail', 'template_odrtxvg', event.target, 'user_8Bt5W5hbwSSOaQRJOSpCU')
+            .then((result) => {
+                console.log(result.text);
+            }, (error) => {
+                setError(error);
+                console.log(error.text);
+            });
         setName('');
         setEmail('');
         setMessage('');
@@ -241,9 +245,9 @@ function Contact(props) {
                                     </div>
                                     <div className={classes.contactForm}>
                                         <form className={classes.formRoot} autoComplete="off" onSubmit={handleSubmit}>
-                                            <TextField className="textField" InputProps={{ className: classes.multilineColor }} InputLabelProps={{ shrink: false }} type="text" variant="outlined" name='name' value={name} onChange={(e) => setName(e.target.value)} placeholder="Your Name" />
-                                            <TextField className="textField" InputProps={{ className: classes.multilineColor }} InputLabelProps={{ shrink: false }} type="email" variant="outlined" name='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your Email" />
-                                            <TextField className="textField" InputProps={{ className: classes.multilineColor }} InputLabelProps={{ shrink: false }} type="text" variant="outlined" name='message' value={message} onChange={(e) => setMessage(e.target.value)} multiline={true} rows={3} placeholder="Your Message" />
+                                            <TextField required className="textField" InputProps={{ className: classes.multilineColor }} InputLabelProps={{ shrink: false }} type="text" variant="outlined" name='name' value={name} onChange={(e) => setName(e.target.value)} placeholder="Your Name" />
+                                            <TextField required className="textField" InputProps={{ className: classes.multilineColor }} InputLabelProps={{ shrink: false }} type="email" variant="outlined" name='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your Email" />
+                                            <TextField helperText={error ? error.text : null} error={error ? true : false} required className="textField" InputProps={{ className: classes.multilineColor }} InputLabelProps={{ shrink: false }} type="text" variant="outlined" name='message' value={message} onChange={(e) => setMessage(e.target.value)} multiline={true} rows={3} placeholder="Your Message" />
                                             <Button type="submit" className={classes.btn} >Submit</Button>
                                         </form>
                                     </div>

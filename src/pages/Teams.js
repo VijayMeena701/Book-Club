@@ -6,10 +6,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import GalleryImage from '../components/GalleryImages';
 import { db } from '../utils/firebase';
 
-//sample data
-import coordinatorSet from './coordinator';
-import volunteerSet from './volunteer';
-
 
 import contactMain from './contact.png';
 
@@ -166,9 +162,6 @@ const styles = (theme) => ({
 function Teams(props) {
     const classes = props.classes;
     const [loading, setLoading] = useState(true);
-    const [coordinator, setCoordinator] = useState([]);
-    const [volunteer, setVolunteer] = useState([]);
-    const [coreImage, setCoreImage] = useState('');
     const [teamData, setTeamData] = useState(null);
     const fetchData = async () => {
         db.collection('teams').doc(new Date().getFullYear().toString()).get().then((doc) => {
@@ -176,12 +169,7 @@ function Teams(props) {
             console.log(data);
             setTeamData(data);
             setLoading(false);
-        }).catch(err => console.log(err));
-        // setTeamData(await db.collection('teams').doc(new Date().getFullYear.toString()).get());
-        // setCoordinator(teamData.coordinators);
-        // setVolunteer(teamData.volunteers);
-        // setCoreImage('https://source.unsplash.com/random/640x480');
-        // setLoading(false);
+        }).catch((err) => console.error(err));
     };
 
     useEffect(() => {
