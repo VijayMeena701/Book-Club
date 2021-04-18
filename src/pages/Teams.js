@@ -175,7 +175,6 @@ function Teams(props) {
     useEffect(() => {
         setLoading(true);
         fetchData();
-        console.log(teamData);
     }, []);
     return (
         <>

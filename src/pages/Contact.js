@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import emailjs from 'emailjs-com';
 
 //Material UI Stuff
-import { Button, Grid, TextField, Typography } from '@material-ui/core';
+import { Button, Grid, TextField } from '@material-ui/core';
 
 import MapOutlinedIcon from '@material-ui/icons/MapOutlined';
 import PhoneIcon from '@material-ui/icons/Phone';
